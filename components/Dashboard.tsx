@@ -28,6 +28,8 @@ type Props = {
 export default function Dashboard({ health, tests, swaggerUrl, errors = [] }: Props) {
   const isHealthy = health.toLowerCase() === 'ok';
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <Stack spacing={4}
       sx={{
@@ -79,6 +81,10 @@ export default function Dashboard({ health, tests, swaggerUrl, errors = [] }: Pr
               />
               <Typography variant="caption" sx={{ opacity: 0.7 }}>
                 Responded: {health}
+              </Typography>
+
+              <Typography variant="caption" sx={{ opacity: 0.7 }}>
+                BaseUrl: {baseUrl}
               </Typography>
             </Stack>
           </Stack>
