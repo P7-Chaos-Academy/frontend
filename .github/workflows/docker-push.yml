@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_IMAGE_NAME: studiestart-frontend
+  DOCKER_IMAGE_NAME: p7-frontend
   DOCKER_REGISTRY: docker.io
 
 jobs:
@@ -28,16 +28,22 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Extract metadata
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=sha,prefix={{branch}}-
-          type=raw,value=latest,enable={{is_default_branch}}
+    # - name: Extract metadata
+    #   id: meta
+    #   uses: docker/metadata-action@v5
+    #   with:
+    #     images: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
+    #     tags: |
+    #       type=ref,event=pr
+    #       type=sha,prefix={{branch}}-
+    #       type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Generate image tag
+      id: image-tag
+      run: |
+        IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-8)
+        echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+        echo "full_image=${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
