@@ -1,5 +1,5 @@
 services:
-  studiestart-frontend:
+  p7-frontend:
     build:
       context: .
       dockerfile: Dockerfile
