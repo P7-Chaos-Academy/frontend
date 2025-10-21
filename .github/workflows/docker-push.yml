@@ -14,6 +14,9 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.image-tag.outputs.tag }}
+      full-image: ${{ steps.image-tag.outputs.full_image }}
     
     steps:
     - name: Checkout code
@@ -28,16 +31,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # - name: Extract metadata
-    #   id: meta
-    #   uses: docker/metadata-action@v5
-    #   with:
-    #     images: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}
-    #     tags: |
-    #       type=ref,event=pr
-    #       type=sha,prefix={{branch}}-
-    #       type=raw,value=latest,enable={{is_default_branch}}
-
     - name: Generate image tag
       id: image-tag
       run: |
@@ -51,27 +44,28 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
         build-args: |
           NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }}
           NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-#   deploy-info:
-#     needs: build-and-push
-#     runs-on: ubuntu-latest
-#     if: github.ref == 'refs/heads/main'
+  deploy-info:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     
-#     steps:
-#     - name: Deployment info
-#       run: |
-#         echo "🚀 Docker image has been built and pushed successfully!"
-#         echo "📦 Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest"
-#         echo ""
-#         echo "To run the container locally:"
-#         echo "docker run -p 3000:3000 \\"
-#         echo "  -e NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 \\"
-#         echo "  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \\"
-#         echo "  ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest"
+    steps:
+    - name: Deployment info
+      run: |
+        echo "Docker image has been built and pushed successfully!"
+        echo "Image tag: ${{ needs.build-and-push.outputs.image-tag }}"
+        echo "Full image: ${{ needs.build-and-push.outputs.full-image }}"
+        echo ""
+        echo "To run the container locally:"
+        echo "docker run -p 3000:3000 \\"
+        echo "  -e NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 \\"
+        echo "  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \\"
+        echo "  ${{ needs.build-and-push.outputs.full-image }}"
