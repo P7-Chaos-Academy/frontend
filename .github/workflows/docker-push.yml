@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - feature/workflow
   workflow_dispatch:
 
 env:
