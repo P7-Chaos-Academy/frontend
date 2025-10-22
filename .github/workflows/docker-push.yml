@@ -50,6 +50,24 @@ jobs:
           NEXT_PUBLIC_BASE_URL=${{ vars.NEXT_PUBLIC_BASE_URL }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+    
+
+    - name: Checkout gitops repository
+      uses: actions/checkout@v2
+      with:
+        repository: P7-Chaos-Academy/gitops
+        token: ${{ secrets.gitops_REPO_TOKEN }}
+        path: gitops-repo
+
+    - name: Update Kubernetes manifest
+      run: |
+        cd gitops-repo
+        sed -i "s|image: cgamel/p7-frontend:.*|image: ${{ steps.image-tag.outputs.full_image }}|g" frontend/frontend-deployment.yaml
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add frontend/frontend-deployment.yaml
+        git commit -m "Update frontend image to ${{ steps.image-tag.outputs.tag }}"
+        git push
 
   deploy-info:
     needs: build-and-push
