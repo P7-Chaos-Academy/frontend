@@ -1,123 +1,89 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
-import { Alert, Box, Button, CircularProgress, Paper, Stack, TextField, Typography } from '@mui/material';
-import { useAuth } from '@/components/AuthProvider';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Alert
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { login, isAuthenticated, isLoading } = useAuth();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [formError, setFormError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.replace('/');
-    }
-  }, [isAuthenticated, isLoading, router]);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setFormError(null);
-
-    if (!email || !password) {
-      setFormError('Provide both email and password.');
-      return;
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      setIsSubmitting(true);
-      await login({ email, password });
-      router.replace('/');
-    } catch (error) {
-      setFormError(error instanceof Error ? error.message : 'Login failed');
+      await login(username, password);
+      
+      // Small delay to ensure auth state is updated
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 100);
+    } catch {
+      setError('Login failed. Please check your credentials.');
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundImage: 'linear-gradient(135deg, #f5f7fb 0%, #e2e8f0 100%)'
-        }}
-      >
-        <Stack direction="row" spacing={2} alignItems="center">
-          <CircularProgress size={24} />
-          <Typography variant="body2" color="text.secondary">
-            Restoring your session…
-          </Typography>
-        </Stack>
-      </Box>
-    );
-  }
-
-  if (isAuthenticated) {
-    return null;
-  }
-
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: 'linear-gradient(135deg, #f5f7fb 0%, #e2e8f0 100%)',
-        px: 2
-      }}
-    >
-      <Paper elevation={6} sx={{ p: 4, width: '100%', maxWidth: 420 }}>
-        <Stack spacing={3}>
-          <Box>
-            <Typography variant="h4" fontWeight={600} gutterBottom>
-              Welcome back
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Sign in to orchestrate your distributed clusters. Authentication endpoints will plug in here once ready.
-            </Typography>
-          </Box>
+    <Box>
+      
+        
+          
 
-          {formError && <Alert severity="error">{formError}</Alert>}
+            <form onSubmit={handleSubmit}>
+              <FormControl sx={{ mb: 2 }}>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  placeholder="Enter your username"
+                />
+              </FormControl>
 
-          <Box component="form" onSubmit={handleSubmit} noValidate>
-            <Stack spacing={2}>
-              <TextField
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
+              <FormControl sx={{ mb: 3 }}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                />
+              </FormControl>
+
+              {error && (
+                <Alert severity="error">
+                  {error}
+                </Alert>
+              )}
+
+              <Button
+                type="submit"
+                disabled={loading}
                 fullWidth
-                autoFocus
-              />
-              <TextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                fullWidth
-              />
-              <Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
-                {isSubmitting ? 'Signing in…' : 'Sign in'}
+                variant="contained"
+                startIcon={<PersonIcon />}
+              >
+                {loading ? 'Signing in...' : 'Sign in'}
               </Button>
-            </Stack>
-          </Box>
-
-          <Typography variant="caption" color="text.secondary">
-            Placeholder authentication flow. Replace with the real `strato-api` endpoints when they become available.
-          </Typography>
-        </Stack>
-      </Paper>
+            </form>
     </Box>
   );
 }

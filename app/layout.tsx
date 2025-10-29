@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import ThemeRegistry from './ThemeRegistry';
-import { AuthProvider } from '@/components/AuthProvider';
+import { AuthProvider } from "@/contexts/AuthContext";
 import './globals.css';
 
 const roboto = Roboto({
