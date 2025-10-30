@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Dashboard from '@/components/Dashboard';
-import { Box, CircularProgress, Stack, Typography } from '@mui/material';
-import { getHealth } from '@/lib/api/health';
-import { getTests, type Test } from '@/lib/api/tests';
-import { API_BASE_URL } from '@/lib/api/client';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useState } from "react";
+import Dashboard from "@/components/Dashboard";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { getHealth } from "@/lib/api/health";
+import { getTests, type Test } from "@/lib/api/tests";
+import { API_BASE_URL } from "@/lib/api/client";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function OverviewPage() {
-  const [health, setHealth] = useState('Checking...');
+  const [health, setHealth] = useState("Checking...");
   const [tests, setTests] = useState<Test[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const { user, loading } = useAuth();
@@ -18,7 +18,7 @@ export default function OverviewPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/login');
+      router.replace("/login");
     }
   }, [user, loading, router]);
 
@@ -37,9 +37,11 @@ export default function OverviewPage() {
           setHealth(healthResponse);
         }
       } catch (error) {
-        collectedErrors.push('Unable to reach the health endpoint. Is the backend running?');
+        collectedErrors.push(
+          "Unable to reach the health endpoint. Is the backend running?"
+        );
         if (active) {
-          setHealth('Unavailable');
+          setHealth("Unavailable");
         }
       }
 
@@ -49,7 +51,9 @@ export default function OverviewPage() {
           setTests(testsResponse);
         }
       } catch (error) {
-        collectedErrors.push('Unable to fetch tests. Check the `/api/test` endpoint.');
+        collectedErrors.push(
+          "Unable to fetch tests. Check the `/api/test` endpoint."
+        );
         if (active) {
           setTests([]);
         }
@@ -67,11 +71,21 @@ export default function OverviewPage() {
     };
   }, [user, loading]);
 
-  const swaggerUrl = `${API_BASE_URL.replace(/\/?api$/, '')}/swagger/index.html`;
+  const swaggerUrl = `${API_BASE_URL.replace(
+    /\/?api$/,
+    ""
+  )}/swagger/index.html`;
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
         <Stack direction="row" spacing={2} alignItems="center">
           <CircularProgress size={24} />
           <Typography variant="body2" color="text.secondary">
@@ -86,5 +100,12 @@ export default function OverviewPage() {
     return null;
   }
 
-  return <Dashboard health={health} tests={tests} swaggerUrl={swaggerUrl} errors={errors} />;
+  return (
+    <Dashboard
+      health={health}
+      tests={tests}
+      swaggerUrl={swaggerUrl}
+      errors={errors}
+    />
+  );
 }

@@ -1,5 +1,5 @@
-import Cookies from 'js-cookie';
-import { setTokenGetter, API_KEY } from './api/client';
+import Cookies from "js-cookie";
+import { setTokenGetter, API_KEY } from "./api/client";
 
 export interface User {
   id: number;
@@ -11,7 +11,7 @@ export interface User {
 export enum AuthRole {
   Admin = 1,
   SeedUser = 2,
-  User = 3
+  User = 3,
 }
 
 export interface LoginCredentials {
@@ -41,12 +41,13 @@ declare global {
   }
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
 
 setTokenGetter(() => AuthService.getToken());
 
 export class AuthService {
-  private static readonly TOKEN_KEY = 'auth_token';
+  private static readonly TOKEN_KEY = "auth_token";
 
   static setToken(token: string): void {
     Cookies.set(this.TOKEN_KEY, token, { expires: 7 }); // 7 days
@@ -61,34 +62,34 @@ export class AuthService {
   }
 
   static isAuthenticated(): boolean {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
     return !!this.getToken();
   }
 
   static async login(credentials: LoginCredentials): Promise<AuthResponse> {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     if (API_KEY) {
-      headers['X-API-Key'] = API_KEY;
+      headers["X-API-Key"] = API_KEY;
     }
 
     const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
+      method: "POST",
       headers,
       body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Login failed:', response.status, errorText);
+      console.error("Login failed:", response.status, errorText);
       throw new Error(`Login failed: ${response.status}`);
     }
 
     // Check if response has content
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
       const data = await response.json();
       if (data.token) {
         this.setToken(data.token);
@@ -102,23 +103,23 @@ export class AuthService {
 
   static async register(credentials: RegisterCredentials): Promise<void> {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     // Add API Key
     if (API_KEY) {
-      headers['X-API-Key'] = API_KEY;
+      headers["X-API-Key"] = API_KEY;
     }
 
     const response = await fetch(`${API_BASE_URL}/register`, {
-      method: 'POST',
+      method: "POST",
       headers,
       body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Registration failed:', response.status, errorText);
+      console.error("Registration failed:", response.status, errorText);
       throw new Error(`Registration failed: ${response.status}`);
     }
   }
@@ -134,7 +135,7 @@ export class AuthService {
 
       // Add API Key
       if (API_KEY) {
-        headers['X-API-Key'] = API_KEY;
+        headers["X-API-Key"] = API_KEY;
       }
 
       const response = await fetch(`${API_BASE_URL}/me`, {
