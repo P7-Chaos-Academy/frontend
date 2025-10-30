@@ -30,10 +30,12 @@ COPY . .
 # Build arguments for environment variables
 ARG NEXT_PUBLIC_API_BASE_URL
 ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_API_KEY
 
 # Set environment variables for build time
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY
 
 # Build the application
 RUN yarn build

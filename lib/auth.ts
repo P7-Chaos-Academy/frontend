@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { setTokenGetter, API_KEY } from './api/client';
 
 export interface User {
   id: number;
@@ -40,7 +41,9 @@ declare global {
   }
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+
+setTokenGetter(() => AuthService.getToken());
 
 export class AuthService {
   private static readonly TOKEN_KEY = 'auth_token';
@@ -63,11 +66,17 @@ export class AuthService {
   }
 
   static async login(credentials: LoginCredentials): Promise<AuthResponse> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (API_KEY) {
+      headers['X-API-Key'] = API_KEY;
+    }
+
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(credentials),
     });
 
@@ -92,11 +101,18 @@ export class AuthService {
   }
 
   static async register(credentials: RegisterCredentials): Promise<void> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    // Add API Key
+    if (API_KEY) {
+      headers['X-API-Key'] = API_KEY;
+    }
+
     const response = await fetch(`${API_BASE_URL}/register`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(credentials),
     });
 
@@ -112,10 +128,17 @@ export class AuthService {
     if (!token) return null;
 
     try {
+      const headers: Record<string, string> = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      // Add API Key
+      if (API_KEY) {
+        headers['X-API-Key'] = API_KEY;
+      }
+
       const response = await fetch(`${API_BASE_URL}/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       });
 
       if (!response.ok) {
