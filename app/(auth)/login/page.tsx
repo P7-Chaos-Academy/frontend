@@ -41,10 +41,6 @@ export default function LoginPage() {
 
   return (
     <Box>
-      
-        
-          
-
             <form onSubmit={handleSubmit}>
               <FormControl sx={{ mb: 2 }}>
                 <FormLabel>Username</FormLabel>
