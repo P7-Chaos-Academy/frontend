@@ -1,4 +1,4 @@
-# Strato Frontend
+# Strato Frontend.
 
 A Next.js application powered by Material UI that talks to the `strato-api` backend and presents a left-nav dashboard for distributed clusters.
 
