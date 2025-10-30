@@ -1,21 +1,22 @@
 'use client';
 
+import { useAuth } from '@/contexts/AuthContext';
 import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
-import { useAuth } from '@/components/AuthProvider';
+
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function ClustersPage() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!loading && !user) {
       router.replace('/login');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [user, loading, router]);
 
-  if (isLoading || !isAuthenticated) {
+  if (loading || !user) {
     return null;
   }
 

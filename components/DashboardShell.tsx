@@ -56,11 +56,8 @@ export default function DashboardShell({ children }: Props) {
     router.push('/login');
   };
 
-  const initials = useMemo(() => {
-    if (!user?.email) {
-      return 'S';
-    }
-    return user?.email.charAt(0).toUpperCase();
+  const emailDisplay = useMemo(() => {
+    return user?.email?.charAt(0).toUpperCase();
   }, [user?.email]);
 
   if (loading) {
@@ -166,7 +163,7 @@ export default function DashboardShell({ children }: Props) {
             gap: 2
           }}
         >
-          <Avatar sx={{ bgcolor: 'rgba(15, 23, 42, 0.6)' }}>{initials}</Avatar>
+          <Avatar sx={{ bgcolor: 'rgba(15, 23, 42, 0.6)' }}>{emailDisplay}</Avatar>
           <Box>
             <Typography variant="body2" sx={{ opacity: 0.7 }}>
               Signed in as

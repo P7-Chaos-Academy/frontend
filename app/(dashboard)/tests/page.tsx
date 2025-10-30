@@ -15,23 +15,23 @@ import {
   Typography
 } from '@mui/material';
 import { getTests, type Test } from '@/lib/api/tests';
-import { useAuth } from '@/components/AuthProvider';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function TestsPage() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const [tests, setTests] = useState<Test[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!loading && !user) {
       router.replace('/login');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [user, loading, router]);
 
   useEffect(() => {
-    if (!isAuthenticated || isLoading) {
+    if (!user || loading) {
       return;
     }
 
@@ -56,9 +56,9 @@ export default function TestsPage() {
     return () => {
       active = false;
     };
-  }, [isAuthenticated, isLoading]);
+  }, [user, loading]);
 
-  if (isLoading || !isAuthenticated) {
+  if (loading || !user) {
     return null;
   }
 
