@@ -27,7 +27,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import ScienceIcon from '@mui/icons-material/Science';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HubIcon from '@mui/icons-material/Hub';
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth } from '@/contexts/AuthContext';
 
 const drawerWidth = 280;
 
@@ -45,7 +45,7 @@ export default function DashboardShell({ children }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, isLoading, user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -56,14 +56,11 @@ export default function DashboardShell({ children }: Props) {
     router.push('/login');
   };
 
-  const initials = useMemo(() => {
-    if (!user?.email) {
-      return 'S';
-    }
-    return user.email.charAt(0).toUpperCase();
+  const emailDisplay = useMemo(() => {
+    return user?.email?.charAt(0).toUpperCase();
   }, [user?.email]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Box
         sx={{
@@ -166,7 +163,7 @@ export default function DashboardShell({ children }: Props) {
             gap: 2
           }}
         >
-          <Avatar sx={{ bgcolor: 'rgba(15, 23, 42, 0.6)' }}>{initials}</Avatar>
+          <Avatar sx={{ bgcolor: 'rgba(15, 23, 42, 0.6)' }}>{emailDisplay}</Avatar>
           <Box>
             <Typography variant="body2" sx={{ opacity: 0.7 }}>
               Signed in as
@@ -182,7 +179,7 @@ export default function DashboardShell({ children }: Props) {
           variant="outlined"
           color="inherit"
           sx={{ borderColor: 'rgba(248, 250, 252, 0.4)', color: 'inherit' }}
-          disabled={!isAuthenticated}
+          disabled={!user}
         >
           Sign out
         </Button>

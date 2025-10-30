@@ -6,25 +6,25 @@ import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { getHealth } from '@/lib/api/health';
 import { getTests, type Test } from '@/lib/api/tests';
 import { API_BASE_URL } from '@/lib/api/client';
-import { useAuth } from '@/components/AuthProvider';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function OverviewPage() {
   const [health, setHealth] = useState('Checking...');
   const [tests, setTests] = useState<Test[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!loading && !user) {
       router.replace('/login');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [user, loading, router]);
 
   useEffect(() => {
     let active = true;
-    if (!isAuthenticated || isLoading) {
+    if (!user || loading) {
       return undefined;
     }
 
@@ -65,11 +65,11 @@ export default function OverviewPage() {
     return () => {
       active = false;
     };
-  }, [isAuthenticated, isLoading]);
+  }, [user, loading]);
 
   const swaggerUrl = `${API_BASE_URL.replace(/\/?api$/, '')}/swagger/index.html`;
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
         <Stack direction="row" spacing={2} alignItems="center">
@@ -82,7 +82,7 @@ export default function OverviewPage() {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return null;
   }
 
