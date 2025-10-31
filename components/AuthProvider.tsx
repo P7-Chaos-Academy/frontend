@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
 
 interface AdminGuardProps {
   children: React.ReactNode;
@@ -14,13 +13,13 @@ export function AdminGuard({ children, fallback }: AdminGuardProps) {
 
   useEffect(() => {
     if (!loading && !user) {
-      console.log('AdminGuard: No user, redirecting to login');
-      window.location.href = '/login';
+      console.log("AdminGuard: No user, redirecting to login");
+      window.location.href = "/login";
     } else if (!loading && user && !isAdmin) {
-      console.warn('USER: ', user);
-      console.warn('IS ADMIN: ', isAdmin);
-      console.error('Access denied: User is not an admin.');
-      window.location.href = '/unauthorized';
+      console.warn("USER: ", user);
+      console.warn("IS ADMIN: ", isAdmin);
+      console.error("Access denied: User is not an admin.");
+      window.location.href = "/unauthorized";
     }
   }, [user, loading, isAdmin]);
 

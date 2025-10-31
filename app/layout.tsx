@@ -1,21 +1,21 @@
-import type { Metadata } from 'next';
-import { Roboto } from 'next/font/google';
-import ThemeRegistry from './ThemeRegistry';
+import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
+import ThemeRegistry from "./ThemeRegistry";
 import { AuthProvider } from "@/contexts/AuthContext";
-import './globals.css';
+import "./globals.css";
 
 const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin']
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'Strato Console',
-  description: 'Frontend for the Strato platform'
+  title: "Strato Console",
+  description: "Frontend for the Strato platform",
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {

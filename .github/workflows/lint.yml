@@ -1,0 +1,61 @@
+---
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  fix-lint-issues:
+    permissions:
+      contents: write
+      statuses: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.FRONTEND_REPO_TOKEN }}
+
+      - name: Super-Linter
+        uses: super-linter/super-linter@v8.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FIX_SHELL_SHFMT: true
+
+      - name: Commit and push linting fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
+          commit_message: "chore: fix linting issues"
+          commit_user_name: super-linter
+          commit_user_email: super-linter@super-linter.dev
+
+env:
+  LINTER_RULES_PATH: /
+  TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.cjs
+  VALIDATE_ENV: false
+  VALIDATE_TRIVY: false
+  VALIDATE_JSCPD: false
+  VALIDATE_CHECKOV: false
+  VALIDATE_MARKDOWN: false
+  VALIDATE_BIOME_LINT: false
+  VALIDATE_BIOME_FORMAT: false
+  VALIDATE_CSS_PRETTIER: false
+  VALIDATE_YAML_PRETTIER: false
+  VALIDATE_JSON_PRETTIER: false
+  VALIDATE_GITHUB_ACTIONS: false
+  VALIDATE_NATURAL_LANGUAGE: false
+  VALIDATE_MARKDOWN_PRETTIER: false
+  VALIDATE_TYPESCRIPT_PRETTIER: false
+  VALIDATE_DOCKERFILE_HADOLINT: false
+  VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
+  FIX_TSX: true
+  FIX_CSS: true
+  FIX_TYPESCRIPT_ES: true
+

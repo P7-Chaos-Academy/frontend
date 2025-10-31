@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Avatar,
   Box,
@@ -19,22 +19,22 @@ import {
   Paper,
   Stack,
   Typography,
-  CircularProgress
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import StorageIcon from '@mui/icons-material/Storage';
-import ScienceIcon from '@mui/icons-material/Science';
-import LogoutIcon from '@mui/icons-material/Logout';
-import HubIcon from '@mui/icons-material/Hub';
-import { useAuth } from '@/contexts/AuthContext';
+  CircularProgress,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import StorageIcon from "@mui/icons-material/Storage";
+import ScienceIcon from "@mui/icons-material/Science";
+import LogoutIcon from "@mui/icons-material/Logout";
+import HubIcon from "@mui/icons-material/Hub";
+import { useAuth } from "@/contexts/AuthContext";
 
 const drawerWidth = 280;
 
 const navItems = [
-  { label: 'Overview', href: '/', icon: <DashboardIcon /> },
-  { label: 'Clusters', href: '/clusters', icon: <StorageIcon /> },
-  { label: 'Tests', href: '/tests', icon: <ScienceIcon /> }
+  { label: "Overview", href: "/", icon: <DashboardIcon /> },
+  { label: "Clusters", href: "/clusters", icon: <StorageIcon /> },
+  { label: "Tests", href: "/tests", icon: <ScienceIcon /> },
 ];
 
 type Props = {
@@ -53,7 +53,7 @@ export default function DashboardShell({ children }: Props) {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    router.push("/login");
   };
 
   const emailDisplay = useMemo(() => {
@@ -64,11 +64,11 @@ export default function DashboardShell({ children }: Props) {
     return (
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)'
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          background: "linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)",
         }}
       >
         <Stack direction="row" spacing={2} alignItems="center">
@@ -84,12 +84,13 @@ export default function DashboardShell({ children }: Props) {
   const drawer = (
     <Box
       sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'linear-gradient(180deg, rgba(37,99,235,0.92) 0%, rgba(59,130,246,0.88) 50%, rgba(59,130,246,0.78) 100%)',
-        color: '#f8fafc',
-        p: 3
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background:
+          "linear-gradient(180deg, rgba(37,99,235,0.92) 0%, rgba(59,130,246,0.88) 50%, rgba(59,130,246,0.78) 100%)",
+        color: "#f8fafc",
+        p: 3,
       }}
     >
       <Stack spacing={1.5} sx={{ mb: 5 }}>
@@ -98,16 +99,19 @@ export default function DashboardShell({ children }: Props) {
             width: 48,
             height: 48,
             borderRadius: 3,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(15, 23, 42, 0.28)'
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(15, 23, 42, 0.28)",
           }}
         >
           <HubIcon />
         </Box>
         <Box>
-          <Typography variant="subtitle2" sx={{ textTransform: 'uppercase', letterSpacing: 2 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ textTransform: "uppercase", letterSpacing: 2 }}
+          >
             Strato
           </Typography>
           <Typography variant="h5" fontWeight={700}>
@@ -129,17 +133,19 @@ export default function DashboardShell({ children }: Props) {
               sx={{
                 mb: 1,
                 borderRadius: 2,
-                color: 'inherit',
-                '&.Mui-selected': {
-                  backgroundColor: 'rgba(15, 23, 42, 0.25)',
-                  backdropFilter: 'blur(8px)'
+                color: "inherit",
+                "&.Mui-selected": {
+                  backgroundColor: "rgba(15, 23, 42, 0.25)",
+                  backdropFilter: "blur(8px)",
                 },
-                '&:hover': {
-                  backgroundColor: 'rgba(15, 23, 42, 0.18)'
-                }
+                "&:hover": {
+                  backgroundColor: "rgba(15, 23, 42, 0.18)",
+                },
               }}
             >
-              <ListItemIcon sx={{ color: 'inherit', minWidth: 36 }}>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: "inherit", minWidth: 36 }}>
+                {item.icon}
+              </ListItemIcon>
               <ListItemText
                 primary={item.label}
                 primaryTypographyProps={{ fontWeight: isActive ? 600 : 500 }}
@@ -149,27 +155,29 @@ export default function DashboardShell({ children }: Props) {
         })}
       </List>
 
-      <Divider sx={{ borderColor: 'rgba(148, 163, 184, 0.24)', mb: 2 }} />
+      <Divider sx={{ borderColor: "rgba(148, 163, 184, 0.24)", mb: 2 }} />
       <Stack spacing={2}>
         <Paper
           elevation={0}
           sx={{
             p: 2,
             borderRadius: 3,
-            backgroundColor: 'rgba(15, 23, 42, 0.26)',
-            color: 'inherit',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
+            backgroundColor: "rgba(15, 23, 42, 0.26)",
+            color: "inherit",
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          <Avatar sx={{ bgcolor: 'rgba(15, 23, 42, 0.6)' }}>{emailDisplay}</Avatar>
+          <Avatar sx={{ bgcolor: "rgba(15, 23, 42, 0.6)" }}>
+            {emailDisplay}
+          </Avatar>
           <Box>
             <Typography variant="body2" sx={{ opacity: 0.7 }}>
               Signed in as
             </Typography>
             <Typography variant="subtitle1" fontWeight={600}>
-              {user?.email ?? 'Cluster Admin'}
+              {user?.email ?? "Cluster Admin"}
             </Typography>
           </Box>
         </Paper>
@@ -178,7 +186,7 @@ export default function DashboardShell({ children }: Props) {
           startIcon={<LogoutIcon />}
           variant="outlined"
           color="inherit"
-          sx={{ borderColor: 'rgba(248, 250, 252, 0.4)', color: 'inherit' }}
+          sx={{ borderColor: "rgba(248, 250, 252, 0.4)", color: "inherit" }}
           disabled={!user}
         >
           Sign out
@@ -188,7 +196,13 @@ export default function DashboardShell({ children }: Props) {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)' }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)",
+      }}
+    >
       <CssBaseline />
       <Box
         component="nav"
@@ -201,13 +215,13 @@ export default function DashboardShell({ children }: Props) {
           onClose={handleDrawerToggle}
           ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: 'transparent',
-              backgroundImage: 'none'
-            }
+              backgroundColor: "transparent",
+              backgroundImage: "none",
+            },
           }}
         >
           {drawer}
@@ -215,14 +229,14 @@ export default function DashboardShell({ children }: Props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
-              border: 'none',
-              backgroundColor: 'transparent',
-              backgroundImage: 'none'
-            }
+              border: "none",
+              backgroundColor: "transparent",
+              backgroundImage: "none",
+            },
           }}
           open
         >
@@ -233,28 +247,28 @@ export default function DashboardShell({ children }: Props) {
         component="main"
         sx={{
           flexGrow: 1,
-          minHeight: '100vh',
+          minHeight: "100vh",
           px: { xs: 3, sm: 4, lg: 6 },
           py: { xs: 4, md: 6 },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 4
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
             gap: 2,
-            flexWrap: 'wrap'
+            flexWrap: "wrap",
           }}
         >
           <IconButton
             color="primary"
             aria-label="open navigation"
             onClick={handleDrawerToggle}
-            sx={{ display: { sm: 'none' } }}
+            sx={{ display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -263,18 +277,23 @@ export default function DashboardShell({ children }: Props) {
             spacing={2}
             alignItems="center"
             sx={{
-              ml: { xs: 'auto', sm: 0 },
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              ml: { xs: "auto", sm: 0 },
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
               borderRadius: 3,
               px: 3,
               py: 1.5,
-              boxShadow: '0 20px 45px rgba(15, 23, 42, 0.08)'
+              boxShadow: "0 20px 45px rgba(15, 23, 42, 0.08)",
             }}
           >
             <Typography variant="body2" color="text.secondary">
               Current environment
             </Typography>
-            <Chip label="Development" color="primary" variant="outlined" size="small" />
+            <Chip
+              label="Development"
+              color="primary"
+              variant="outlined"
+              size="small"
+            />
           </Stack>
         </Box>
 

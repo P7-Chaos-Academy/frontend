@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { AuthService, User } from '../lib/auth';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { AuthService, User } from "../lib/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return;
-    
+
     const initAuth = async () => {
       if (AuthService.isAuthenticated()) {
         try {
@@ -44,7 +44,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await AuthService.login({ username, password });
       if (response.user) {
-        console.log('AuthContext: Login successful, setting user: ', response.user);
+        console.log(
+          "AuthContext: Login successful, setting user: ",
+          response.user
+        );
         setUser(response.user);
       } else {
         // If no user in response, try to fetch current user
@@ -73,7 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Alert,
   Box,
@@ -12,11 +12,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
-} from '@mui/material';
-import { getTests, type Test } from '@/lib/api/tests';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+  Typography,
+} from "@mui/material";
+import { getTests, type Test } from "@/lib/api/tests";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function TestsPage() {
   const { user, loading } = useAuth();
@@ -26,7 +26,7 @@ export default function TestsPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/login');
+      router.replace("/login");
     }
   }, [user, loading, router]);
 
@@ -46,7 +46,7 @@ export default function TestsPage() {
         }
       } catch (err) {
         if (active) {
-          setError('Unable to fetch tests. Check the `/api/test` endpoint.');
+          setError("Unable to fetch tests. Check the `/api/test` endpoint.");
         }
       }
     };
@@ -69,9 +69,10 @@ export default function TestsPage() {
         sx={{
           p: { xs: 3, md: 5 },
           borderRadius: 4,
-          background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 45%, #5b21b6 100%)',
-          color: '#f8fafc',
-          boxShadow: '0 35px 65px rgba(124, 58, 237, 0.32)'
+          background:
+            "linear-gradient(135deg, #a855f7 0%, #7c3aed 45%, #5b21b6 100%)",
+          color: "#f8fafc",
+          boxShadow: "0 35px 65px rgba(124, 58, 237, 0.32)",
         }}
       >
         <Stack spacing={1.5}>
@@ -82,7 +83,8 @@ export default function TestsPage() {
             Test datasets sourced from the backend
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.85 }}>
-            Use this space to validate CRUD operations, schema migrations, and seed data for the Strato platform.
+            Use this space to validate CRUD operations, schema migrations, and
+            seed data for the Strato platform.
           </Typography>
         </Stack>
       </Paper>
@@ -94,12 +96,17 @@ export default function TestsPage() {
         sx={{
           p: 3,
           borderRadius: 3,
-          border: '1px solid rgba(15, 23, 42, 0.08)',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 24px 50px rgba(15, 23, 42, 0.06)'
+          border: "1px solid rgba(15, 23, 42, 0.08)",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 24px 50px rgba(15, 23, 42, 0.06)",
         }}
       >
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={3}
+        >
           <Box>
             <Typography variant="h5" fontWeight={600}>
               Records
@@ -108,7 +115,12 @@ export default function TestsPage() {
               Pulled from `/api/test`
             </Typography>
           </Box>
-          <Chip label={`${tests.length} rows`} size="small" color="primary" variant="outlined" />
+          <Chip
+            label={`${tests.length} rows`}
+            size="small"
+            color="primary"
+            variant="outlined"
+          />
         </Stack>
         <Table size="small">
           <TableHead>
@@ -120,8 +132,9 @@ export default function TestsPage() {
           <TableBody>
             {tests.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={2} sx={{ textAlign: 'center', py: 4 }}>
-                  No test records found. Seed the database from the backend to see data here.
+                <TableCell colSpan={2} sx={{ textAlign: "center", py: 4 }}>
+                  No test records found. Seed the database from the backend to
+                  see data here.
                 </TableCell>
               </TableRow>
             ) : (

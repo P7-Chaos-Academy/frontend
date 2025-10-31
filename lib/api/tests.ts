@@ -1,4 +1,4 @@
-import { apiFetch } from './client';
+import { apiFetch } from "./client";
 
 export type Test = {
   id: number;
@@ -6,5 +6,5 @@ export type Test = {
 };
 
 export async function getTests(): Promise<Test[]> {
-  return apiFetch<Test[]>('/test');
+  return apiFetch<Test[]>("/test");
 }
