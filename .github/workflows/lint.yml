@@ -48,4 +48,6 @@ jobs:
           commit_user_email: super-linter@super-linter.dev
 
 env:
-  LINTER_RULES_PATH: ../eslintrc.json
+  LINTER_RULES_PATH: /
+  TYPESCRIPT_ES_CONFIG_FILE: ../eslintrc.json
+  VALIDATE_TYPESCRIPT_STANDARD: standard
