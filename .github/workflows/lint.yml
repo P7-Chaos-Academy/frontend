@@ -48,4 +48,4 @@ jobs:
           commit_user_email: super-linter@super-linter.dev
 
 env:
-  LINTER_RULES_PATH: .eslint.json
+  LINTER_RULES_PATH: ../eslintrc.json
