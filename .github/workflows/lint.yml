@@ -21,6 +21,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          token: ${{ secrets.FRONTEND_REPO_TOKEN }}
       - name: Super-Linter
         uses: super-linter/super-linter@v8.2.1 # x-release-please-version
         env:
@@ -48,3 +49,5 @@ jobs:
           commit_message: "chore: fix linting issues"
           commit_user_name: super-linter
           commit_user_email: super-linter@super-linter.dev
+          token: ${{ secrets.FRONTEND_REPO_TOKEN }}
+          
