@@ -30,6 +30,8 @@ jobs:
           FIX_YAML_PRETTIER: true
           validate_all_codebases: false
           validate_TYPESCRIPT_ES: true
+          FIX_TYPESCRIPT_ES: true
+          FIX_TSX: true
           # To reuse the same Super-linter configuration that you use in the
           # lint job without duplicating it, see
           # https://github.com/super-linter/super-linter/blob/main/docs/run-linter-locally.md#share-environment-variables-between-environments
@@ -46,6 +48,3 @@ jobs:
           commit_message: "chore: fix linting issues"
           commit_user_name: super-linter
           commit_user_email: super-linter@super-linter.dev
-
-env:
-  LINTER_RULES_PATH: ../eslintrc.json
