@@ -52,5 +52,5 @@ jobs:
 
 env:
   LINTER_RULES_PATH: /
-  TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.json
+  TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.cjs
   VALIDATE_TYPESCRIPT_STANDARD: standard
