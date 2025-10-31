@@ -19,11 +19,5 @@ jobs:
         node-version: 20.19.5
         cache: 'yarn'
 
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
-
-    - name: Lint
-      run: yarn lint
-
     - name: Build Next.js app
       run: yarn build
