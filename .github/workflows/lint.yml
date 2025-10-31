@@ -44,3 +44,6 @@ jobs:
           commit_message: "chore: fix linting issues"
           commit_user_name: super-linter
           commit_user_email: super-linter@super-linter.dev
+
+env:
+  LINTER_RULES_PATH: .eslint.json
