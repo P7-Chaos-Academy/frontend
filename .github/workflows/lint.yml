@@ -28,11 +28,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Set your fix mode variables to true
           FIX_SHELL_SHFMT: true
-          FIX_YAML_PRETTIER: true
-          validate_all_codebases: false
-          validate_TYPESCRIPT_ES: true
-          FIX_TYPESCRIPT_ES: true
-          FIX_TSX: true
           # To reuse the same Super-linter configuration that you use in the
           # lint job without duplicating it, see
           # https://github.com/super-linter/super-linter/blob/main/docs/run-linter-locally.md#share-environment-variables-between-environments
@@ -53,6 +48,13 @@ jobs:
 env:
   LINTER_RULES_PATH: /
   TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.cjs
-  VALIDATE_TYPESCRIPT_STANDARD: standard
   VALIDATE_BIOME_LINT: false
   VALIDATE_BIOME_FORMAT: false
+  VALIDATE_CSS_PRETTIER: false
+  VALIDATE_TYPESCRIPT_PRETTIER: false
+  VALIDATE_YAML_PRETTIER: false
+  VALIDATE_MARKDOWN_PRETTIER: false
+  VALIDATE_JSON_PRETTIER: false
+  FIX_TYPESCRIPT_ES: true
+  FIX_TSX: true
+
