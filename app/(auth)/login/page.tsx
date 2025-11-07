@@ -10,7 +10,9 @@ import {
   Input,
   Button,
   Alert,
+  Typography,
 } from "@mui/material";
+import HubIcon from "@mui/icons-material/Hub";
 import PersonIcon from "@mui/icons-material/Person";
 
 export default function LoginPage() {
@@ -47,10 +49,49 @@ export default function LoginPage() {
         backgroundColor: "#1976d2",
         height: "100vh",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        gap: "30px", // space between logo box and login box
       }}
     >
+      {/* Logo + Title Box */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          color: "white",
+        }}
+      >
+        <Box
+          sx={{
+            width: 48,
+            height: 48,
+            borderRadius: 3,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(15, 23, 42, 0.28)",
+            mb: 1.5,
+          }}
+        >
+          <HubIcon />
+        </Box>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ textTransform: "uppercase", letterSpacing: 2 }}
+          >
+            Strato
+          </Typography>
+          <Typography variant="h5" fontWeight={700}>
+            Control Plane
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Center Login Box */}
       <Box
         sx={{
           backgroundColor: "white",
@@ -60,6 +101,7 @@ export default function LoginPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          width: "min(450px, 90%)",
         }}
       >
         <form onSubmit={handleSubmit}>
@@ -73,24 +115,46 @@ export default function LoginPage() {
           >
             <FormControl>
               <FormLabel>Username</FormLabel>
-              <Input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                placeholder="Enter your username"
-              />
+                <Input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  placeholder="Enter your username"
+                  sx={{
+                    "&::placeholder": {
+                      fontSize: {
+                        xs: "12px",
+                        sm: "13px",
+                        md: "14px",
+                        lg: "15px",
+                      },
+                      opacity: 0.7,
+                    },
+                  }}
+                />
             </FormControl>
 
             <FormControl>
               <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Enter your password"
-              />
+                <Input
+                  type="text"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                  sx={{
+                    "&::placeholder": {
+                      fontSize: {
+                        xs: "12px",
+                        sm: "13px",
+                        md: "14px",
+                        lg: "15px",
+                      },
+                      opacity: 0.7,
+                    },
+                  }}
+                />
             </FormControl>
           </Box>
 
