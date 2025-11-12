@@ -7,7 +7,7 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    plugins: { react: pluginReact, js },
+    plugins: { js, react: pluginReact},
     extends: ["js/recommended","react/recommended", "plugin:react/jsx-runtime"],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
@@ -19,5 +19,6 @@ export default defineConfig([
     }
   },
   tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended
+  pluginReact.configs.flat.recommended,
+  pluginReact.configs.flat["jsx-runtime"],
 ]);
