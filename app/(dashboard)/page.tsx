@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Dashboard from "@/components/Dashboard";
+import Dashboard from "@/components/dashboard/Dashboard";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { getHealth } from "@/lib/api/health";
 import { getTests, type Test } from "@/lib/api/tests";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function OverviewPage() {
-  const [health, setHealth] = useState("Checking...");
+  const [health, setHealth] = useState<string>("Checking...");
   const [tests, setTests] = useState<Test[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const { user, loading } = useAuth();
@@ -46,7 +46,7 @@ export default function OverviewPage() {
       }
 
       try {
-        const testsResponse = await getTests();
+        const testsResponse: Test[] = await getTests();
         if (active) {
           setTests(testsResponse);
         }
@@ -71,7 +71,7 @@ export default function OverviewPage() {
     };
   }, [user, loading]);
 
-  const swaggerUrl = `${API_BASE_URL.replace(
+  const swaggerUrl: string = `${API_BASE_URL.replace(
     /\/?api$/,
     ""
   )}/swagger/index.html`;

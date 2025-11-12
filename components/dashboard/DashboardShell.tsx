@@ -1,64 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import {
-  Avatar,
   Box,
-  Button,
   Chip,
   CssBaseline,
   Divider,
   Drawer,
   IconButton,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Paper,
   Stack,
   Typography,
   CircularProgress,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import StorageIcon from "@mui/icons-material/Storage";
-import ScienceIcon from "@mui/icons-material/Science";
-import LogoutIcon from "@mui/icons-material/Logout";
-import HubIcon from "@mui/icons-material/Hub";
+import DashboardRoutes from "./DashboardRoutes";
+import DashboardLogo from "./DashboardLogo";
+import DashboardUser from "./DashboardUser";
 import { useAuth } from "@/contexts/AuthContext";
 
 const drawerWidth = 280;
-
-const navItems = [
-  { label: "Overview", href: "/", icon: <DashboardIcon /> },
-  { label: "Clusters", href: "/clusters", icon: <StorageIcon /> },
-  { label: "Tests", href: "/tests", icon: <ScienceIcon /> },
-];
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function DashboardShell({ children }: Props) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
-  const router = useRouter();
-  const { user, logout, loading } = useAuth();
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const { loading } = useAuth();
+ 
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
-  const handleLogout = () => {
-    logout();
-    router.push("/login");
-  };
-
-  const emailDisplay = useMemo(() => {
-    return user?.email?.charAt(0).toUpperCase();
-  }, [user?.email]);
 
   if (loading) {
     return (
@@ -81,7 +54,7 @@ export default function DashboardShell({ children }: Props) {
     );
   }
 
-  const drawer = (
+  const drawer: JSX.Element = (
     <Box
       sx={{
         height: "100%",
@@ -93,105 +66,13 @@ export default function DashboardShell({ children }: Props) {
         p: 3,
       }}
     >
-      <Stack spacing={1.5} sx={{ mb: 5 }}>
-        <Box
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(15, 23, 42, 0.28)",
-          }}
-        >
-          <HubIcon />
-        </Box>
-        <Box>
-          <Typography
-            variant="subtitle2"
-            sx={{ textTransform: "uppercase", letterSpacing: 2 }}
-          >
-            Strato
-          </Typography>
-          <Typography variant="h5" fontWeight={700}>
-            Control Plane
-          </Typography>
-        </Box>
-      </Stack>
+      <DashboardLogo />
 
-      <List sx={{ flexGrow: 1 }}>
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <ListItemButton
-              key={item.href}
-              component={Link}
-              href={item.href}
-              selected={isActive}
-              onClick={() => setMobileOpen(false)}
-              sx={{
-                mb: 1,
-                borderRadius: 2,
-                color: "inherit",
-                "&.Mui-selected": {
-                  backgroundColor: "rgba(15, 23, 42, 0.25)",
-                  backdropFilter: "blur(8px)",
-                },
-                "&:hover": {
-                  backgroundColor: "rgba(15, 23, 42, 0.18)",
-                },
-              }}
-            >
-              <ListItemIcon sx={{ color: "inherit", minWidth: 36 }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.label}
-                primaryTypographyProps={{ fontWeight: isActive ? 600 : 500 }}
-              />
-            </ListItemButton>
-          );
-        })}
-      </List>
+      <DashboardRoutes />
 
       <Divider sx={{ borderColor: "rgba(148, 163, 184, 0.24)", mb: 2 }} />
-      <Stack spacing={2}>
-        <Paper
-          elevation={0}
-          sx={{
-            p: 2,
-            borderRadius: 3,
-            backgroundColor: "rgba(15, 23, 42, 0.26)",
-            color: "inherit",
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Avatar sx={{ bgcolor: "rgba(15, 23, 42, 0.6)" }}>
-            {emailDisplay}
-          </Avatar>
-          <Box>
-            <Typography variant="body2" sx={{ opacity: 0.7 }}>
-              Signed in as
-            </Typography>
-            <Typography variant="subtitle1" fontWeight={600}>
-              {user?.email ?? "Cluster Admin"}
-            </Typography>
-          </Box>
-        </Paper>
-        <Button
-          onClick={handleLogout}
-          startIcon={<LogoutIcon />}
-          variant="outlined"
-          color="inherit"
-          sx={{ borderColor: "rgba(248, 250, 252, 0.4)", color: "inherit" }}
-          disabled={!user}
-        >
-          Sign out
-        </Button>
-      </Stack>
+
+      <DashboardUser />
     </Box>
   );
 

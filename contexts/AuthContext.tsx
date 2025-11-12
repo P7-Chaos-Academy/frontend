@@ -53,9 +53,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // If no user in response, try to fetch current user
         const currentUser = await AuthService.getCurrentUser();
         setUser(currentUser);
-      }
-    } catch (error) {
-      throw error;
+      } 
+    } finally {
+      // no-op to satisfy linting rules
     }
   };
 

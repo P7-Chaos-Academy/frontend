@@ -31,9 +31,9 @@ export default function Dashboard({
   swaggerUrl,
   errors = [],
 }: Props) {
-  const isHealthy = health.toLowerCase() === "ok";
+  const isHealthy: boolean = health.toLowerCase() === "ok";
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl: string | undefined = process.env.NEXT_PUBLIC_BASE_URL;
 
   return (
     <Stack
