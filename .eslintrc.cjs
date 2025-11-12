@@ -6,24 +6,22 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
   ],
   rules: {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "no-import-assign": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "n/no-missing-import": "off", // optional but recommended for CI
   },
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
-      parserOptions: { project: "./tsconfig.json", ecmaFeatures: { jsx: true } },
-      rules: {
-        "react/react-in-jsx-scope": "off",
-        "react/jsx-uses-react": "off",
-        "no-import-assign": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-      }
-    }
-  ]
+      parserOptions: {
+        project: "./tsconfig.json",
+        ecmaFeatures: { jsx: true },
+      },
+    },
+  ],
 };
