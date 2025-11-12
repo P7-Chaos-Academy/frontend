@@ -1,11 +1,5 @@
 module.exports = {
   root: true,
-  rules: {
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off",
-    "no-import-assign": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-  },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "react"],
   extends: [
@@ -14,6 +8,12 @@ module.exports = {
     "plugin:react/recommended",
     "next/core-web-vitals"
   ],
+  rules: {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "no-import-assign": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+  },
   overrides: [
     {
       files: ["**/*.ts", "**/*.tsx"],
