@@ -6,7 +6,7 @@ import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function ClustersPage() {
+export default function DeploymentsPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 

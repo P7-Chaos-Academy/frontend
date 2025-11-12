@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Dashboard from "@/components/Dashboard";
+import Dashboard from "@/components/dashboard/Dashboard";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { getHealth } from "@/lib/api/health";
 import { getTests, type Test } from "@/lib/api/tests";
