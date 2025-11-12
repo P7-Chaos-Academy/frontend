@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(currentUser);
       } 
     } finally {
-      () => {1+1} // no-op to satisfy linting rules
+      // no-op to satisfy linting rules
     }
   };
 
