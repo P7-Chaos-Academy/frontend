@@ -14,7 +14,7 @@ import { NavItemType } from "@/models/navItemsType";
 
 export default function DashboardRoutes() {
   const pathname: string = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <DashboardIcon /> },
