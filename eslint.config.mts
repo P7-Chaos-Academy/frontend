@@ -25,7 +25,7 @@ export default defineConfig([
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
       "no-import-assign": "off",
-      "@typescript-eslint/no-unused-vars": "off",
+      "typescript-eslint/no-unused-vars": "off",
       "n/no-missing-import": "off",
     }
   },
