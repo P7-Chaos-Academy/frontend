@@ -25,7 +25,7 @@ type Props = {
 };
 
 export default function DashboardShell({ children }: Props) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { user, logout, loading } = useAuth();
  
 
@@ -54,7 +54,7 @@ export default function DashboardShell({ children }: Props) {
     );
   }
 
-  const drawer = (
+  const drawer: JSX.Element = (
     <Box
       sx={{
         height: "100%",

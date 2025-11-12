@@ -10,11 +10,12 @@ import {
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
+import { NavItemType } from "@/models/navItemsType";
 
 export default function DashboardRoutes() {
-  const pathname = usePathname();
+  const pathname: string = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navItems = [
+  const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <DashboardIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <StorageIcon /> },

@@ -11,10 +11,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import PersonIcon from "@mui/icons-material/Person";
 
 export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const { login } = useAuth();
 
   

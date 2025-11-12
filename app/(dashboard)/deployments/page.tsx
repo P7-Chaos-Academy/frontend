@@ -2,13 +2,14 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function DeploymentsPage() {
   const { user, loading } = useAuth();
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {

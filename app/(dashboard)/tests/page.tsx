@@ -37,7 +37,7 @@ export default function TestsPage() {
 
     let active = true;
 
-    const fetchTests = async () => {
+    const fetchTests:() => Promise<void> = async () => {
       try {
         const response = await getTests();
         if (active) {

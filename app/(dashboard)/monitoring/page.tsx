@@ -16,10 +16,11 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nodeDummyData, NodeStatus } from "@/models/nodeStatus";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function MonitoringPage() {
   const { user, loading } = useAuth();
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
 
   //Fake node data, to test if compilation and rendering works
   const [nodes, setNodes] = useState<NodeStatus[]>(nodeDummyData);

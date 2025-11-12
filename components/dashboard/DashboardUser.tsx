@@ -3,17 +3,18 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function DashboardUser() {
     const { user, logout, loading } = useAuth();
-    const router = useRouter();
+    const router: AppRouterInstance = useRouter();
     
     const handleLogout = () => {
       logout();
       router.push("/login");
     };
 
-    const emailDisplay = useMemo(() => {
+    const emailDisplay: string | undefined = useMemo(() => {
       return user?.email?.charAt(0).toUpperCase();
     }, [user?.email]);
 
