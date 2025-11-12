@@ -9,6 +9,7 @@
 | PRE_COMMIT                 | Pass ✅           |
 | TSX                        | Pass ✅           |
 | TYPESCRIPT_ES              | Pass ✅           |
+| TYPESCRIPT_PRETTIER        | Pass ✅           |
 | YAML                       | Pass ✅           |
 
 All files and directories linted successfully

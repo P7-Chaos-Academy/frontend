@@ -10,7 +10,7 @@ export function setTokenGetter(getter: () => string | undefined) {
 
 export async function apiFetch<T>(
   path: string,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export async function apiFetch<T>(
   if (!response.ok) {
     const text = await response.text();
     throw new Error(
-      `Request failed with status ${response.status} at ${path}: ${text}`
+      `Request failed with status ${response.status} at ${path}: ${text}`,
     );
   }
 
