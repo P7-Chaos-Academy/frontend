@@ -9,7 +9,18 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: { js, react: pluginReact},
     extends: ["js/recommended","react/recommended", "plugin:react/jsx-runtime"],
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    languageOptions: { 
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        project: './tsconfig.json',
+      }, 
+    },
+    settings: {
+      react: { version: "detect" },
+      'import/resolver': {
+        typescript: true,
+      },
+    },
     rules: {
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",

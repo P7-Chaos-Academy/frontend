@@ -29,6 +29,10 @@ jobs:
         uses: super-linter/super-linter@v8.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: .
+          TYPESCRIPT_ESLINT_CONFIG_FILE: eslint.config.mts
+          FILTER_REGEX_INCLUDE: ".*"
+          ESLINT_USE_FLAT_CONFIG: true
           FIX_SHELL_SHFMT: true
 
       - name: Commit and push linting fixes
