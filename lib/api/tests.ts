@@ -1,5 +1,3 @@
-import { apiFetch } from "./client";
-
 export type Test = {
   id: number;
   name: string;
