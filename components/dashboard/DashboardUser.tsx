@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function DashboardUser() {
-    const { user, logout, loading } = useAuth();
+    const { user, logout } = useAuth();
     const router: AppRouterInstance = useRouter();
     
     const handleLogout = () => {

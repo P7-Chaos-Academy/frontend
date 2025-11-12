@@ -26,7 +26,7 @@ type Props = {
 
 export default function DashboardShell({ children }: Props) {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
-  const { user, logout, loading } = useAuth();
+  const { loading } = useAuth();
  
 
   const handleDrawerToggle = () => {

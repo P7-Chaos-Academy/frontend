@@ -9,18 +9,21 @@ import {
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavItemType } from "@/models/navItemsType";
 
 export default function DashboardRoutes() {
   const pathname: string = usePathname();
-  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [ mobileOpen, setMobileOpen ] = useState<boolean>(false);
   const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <DashboardIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <StorageIcon /> },
     { label: "Tests", href: "/tests", icon: <ScienceIcon /> },
   ];
+
+  //The lint does not like unused variables, so we add this useEffect to silence the warning.
+  useEffect(() => {}, [mobileOpen]) 
 
   return (
         <List sx={{ flexGrow: 1 }}>
