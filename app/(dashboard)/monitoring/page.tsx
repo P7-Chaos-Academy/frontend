@@ -15,38 +15,14 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { nodeDummyData, NodeStatus } from "@/models/nodeStatus";
 
 export default function MonitoringPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
   //Fake node data, to test if compilation and rendering works
-  const [nodes, setNodes] = useState([
-    {
-      id: "node-1",
-      name: "Compute Node A",
-      status: "Healthy",
-      cpu: "32%",
-      memory: "58%",
-      uptime: "12d 4h",
-    },
-    {
-      id: "node-2",
-      name: "Compute Node B",
-      status: "Degraded",
-      cpu: "76%",
-      memory: "84%",
-      uptime: "7d 11h",
-    },
-    {
-      id: "node-3",
-      name: "Compute Node C",
-      status: "Offline",
-      cpu: "—",
-      memory: "—",
-      uptime: "—",
-    },
-  ]);
+  const [nodes, setNodes] = useState<NodeStatus[]>(nodeDummyData);
 
   useEffect(() => {
     if (!loading && !user) {
