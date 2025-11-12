@@ -15,6 +15,9 @@ module.exports = {
         project: "./tsconfig.json",
         ecmaFeatures: { jsx: true },
       },
+      rules: {
+        "react/react-in-jsx-scope": "off",
+      }
     },
   ],
   rules: {
