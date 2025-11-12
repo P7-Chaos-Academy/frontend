@@ -105,13 +105,13 @@ export default function MonitoringPage() {
                         backgroundColor:
                           node.status === "Healthy"
                             ? "rgba(16,185,129,0.1)"
-                            : node.status === "Degraded"
+                            : node.status === "Terminated"
                             ? "rgba(245,158,11,0.1)"
                             : "rgba(239,68,68,0.1)",
                         color:
                           node.status === "Healthy"
                             ? "#10b981"
-                            : node.status === "Degraded"
+                            : node.status === "Terminated"
                             ? "#f59e0b"
                             : "#ef4444",
                         fontWeight: 500,

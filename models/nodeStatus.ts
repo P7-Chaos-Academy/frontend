@@ -1,7 +1,7 @@
 export type NodeStatus = {
   id: string;
   name: string;
-  status: "Healthy" | "Degraded" | "Offline";
+  status: "Healthy" | "Terminated" | "Offline";
   cpu: string;
   memory: string;
   uptime: string;
@@ -19,7 +19,7 @@ export const nodeDummyData: NodeStatus[] = [
   {
     id: "node-2",
     name: "Compute Node B",
-    status: "Degraded",
+    status: "Terminated",
     cpu: "76%",
     memory: "84%",
     uptime: "7d 11h",
