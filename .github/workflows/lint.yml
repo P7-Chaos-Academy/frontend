@@ -40,8 +40,8 @@ jobs:
           commit_user_email: super-linter@super-linter.dev
 
 env:
-  LINTER_RULES_PATH: .eslintrc.cjs
-  TYPESCRIPT_ESLINT_CONFIG_FILE: .eslintrc.cjs
+  LINTER_RULES_PATH: eslint.config.mts
+  TYPESCRIPT_ESLINT_CONFIG_FILE: eslint.config.mts
   VALIDATE_ENV: false
   VALIDATE_TRIVY: false
   VALIDATE_JSCPD: false
