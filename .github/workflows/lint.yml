@@ -45,7 +45,7 @@ jobs:
 
 env:
   LINTER_RULES_PATH: .
-  TYPESCRIPT_ESLINT_CONFIG_FILE: eslint.config.mts
+  TYPESCRIPT_ES_CONFIG_FILE: eslint.config.mts
   VALIDATE_ENV: false
   VALIDATE_TRIVY: false
   VALIDATE_JSCPD: false
