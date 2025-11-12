@@ -18,6 +18,12 @@ module.exports = {
     {
       files: ["**/*.ts", "**/*.tsx"],
       parserOptions: { project: "./tsconfig.json", ecmaFeatures: { jsx: true } },
+      rules: {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-uses-react": "off",
+        "no-import-assign": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+      }
     }
   ]
 };
