@@ -4,6 +4,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "no-import-assign": "off",
+    "typescript-eslint/no-unused-vars": "off",
   },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "react"],
