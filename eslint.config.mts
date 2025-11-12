@@ -8,7 +8,7 @@ export default defineConfig([
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: { js, react: pluginReact},
-    extends: ["js/recommended","react/recommended", "plugin:react/jsx-runtime"],
+    extends: ["js/recommended"],
     languageOptions: { 
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
