@@ -17,9 +17,9 @@ export default function DashboardRoutes() {
   const [ mobileOpen, setMobileOpen ] = useState<boolean>(false);
   const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
-    { label: "Deployments", href: "/deployments", icon: <DashboardIcon /> },
+    { label: "Deployments", href: "/deployments", icon: <ScienceIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <StorageIcon /> },
-    { label: "Tests", href: "/tests", icon: <ScienceIcon /> },
+    { label: "Logs", href: "/logs", icon: <DashboardIcon /> },
   ];
 
   //The lint does not like unused variables, so we add this useEffect to silence the warning.
