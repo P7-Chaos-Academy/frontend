@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import MicrogridBox from "@/components/MicrogridBox";
+import MicrogridBox from "@/components/logs/MicrogridBox";
 
 export default function LogsPage() {
   const { user, loading } = useAuth();

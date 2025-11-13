@@ -10,9 +10,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nodeDummyData } from "@/models/nodeStatus";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import NodeTable from "@/components/NodeTable";
-import MonitoringTable from "@/components/MonitoringTable";
-import TableMapper from "@/components/TableMapper";
+import NodeTable from "@/components/monitoring/NodeTable";
+import MonitoringTable from "@/components/monitoring/MonitoringTable";
+import TableMapper from "@/components/monitoring/TableMapper";
 
 export default function MonitoringPage() {
   const { user, loading } = useAuth();
