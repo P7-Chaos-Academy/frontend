@@ -8,20 +8,14 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { nodeDummyData } from "@/models/nodeStatus";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import NodeTable from "@/components/monitoring/NodeTable";
-import MonitoringTable from "@/components/monitoring/MonitoringTable";
 import TableMapper from "@/components/monitoring/TableMapper";
 
 export default function MonitoringPage() {
   const { user, loading } = useAuth();
   const router: AppRouterInstance = useRouter();
 
-  //Fake node data, to test if compilation and rendering works
-  const [nodes, setNodes] = useState<NodeStatus[]>(nodeDummyData);
-
-  /* useEffect(() => {
+  useEffect(() => {
     if (!loading && !user) {
       router.replace("/login");
     }
@@ -29,7 +23,7 @@ export default function MonitoringPage() {
 
   if (loading || !user) {
     return null;
-  } */
+  }
 
   return (
     <Stack spacing={4}>

@@ -5,6 +5,7 @@ import {
   Paper, 
   Typography,  
 } from "@mui/material";
+import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import MicrogridBox from "@/components/logs/MicrogridBox";
@@ -13,7 +14,7 @@ export default function LogsPage() {
   const { user, loading } = useAuth();
   const router = useRouter(); 
   
-  /* useEffect(() => {
+  useEffect(() => {
     if (!loading && !user) {
       router.replace("/login");
     }
@@ -21,7 +22,7 @@ export default function LogsPage() {
 
   if (loading || !user) {
     return null;
-  } */
+  }
   
   return (
     <Stack spacing={4}>
