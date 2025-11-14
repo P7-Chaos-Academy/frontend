@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import TableMapper from "@/components/monitoring/TableMapper";
 
