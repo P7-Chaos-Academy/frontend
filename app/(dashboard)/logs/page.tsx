@@ -1,20 +1,19 @@
 "use client";
 
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  Paper,
-  Stack,
-  Typography,
+import { 
+  Stack, 
+  Paper, 
+  Typography,  
 } from "@mui/material";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import TableMapper from "@/components/monitoring/TableMapper";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+import MicrogridBox from "@/components/logs/MicrogridBox";
 
-export default function MonitoringPage() {
+export default function LogsPage() {
   const { user, loading } = useAuth();
-  const router: AppRouterInstance = useRouter();
-
+  const router = useRouter(); 
+  
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/login");
@@ -24,10 +23,10 @@ export default function MonitoringPage() {
   if (loading || !user) {
     return null;
   }
-
+  
   return (
     <Stack spacing={4}>
-      {/* Header Card */}
+      {/* Header Section */}
       <Paper
         elevation={0}
         sx={{
@@ -41,19 +40,20 @@ export default function MonitoringPage() {
       >
         <Stack spacing={1.5}>
           <Typography variant="overline" sx={{ letterSpacing: 2 }}>
-            Monitoring dashboard
+            Distributed Logs
           </Typography>
           <Typography variant="h4" fontWeight={700}>
-            Cluster node visibility in real-time
+            Inspect task activity across your microgrids
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.85 }}>
-            Stay informed with live metrics on each node’s health, workload, and uptime.
+            Each microgrid groups several nodes — open one to review real-time
+            logs for every node running distributed workloads.
           </Typography>
         </Stack>
       </Paper>
 
-      {/* Monitoring Table */}
-      <TableMapper />
+      {/* Microgrid Log Containers */}
+      <MicrogridBox />
     </Stack>
   );
 }
