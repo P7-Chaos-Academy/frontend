@@ -26,7 +26,7 @@ export default function MonitoringTable(microgrid: {microgrid: Microgrid}) {
 
             <TableBody>
               {microgrid.microgrid.nodes.map((node) => (
-                <NodeTable node={node}/>
+                <NodeTable key={node.id} node={node}/>
               ))}
             </TableBody>
           </Table>

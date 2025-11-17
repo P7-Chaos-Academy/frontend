@@ -1,10 +1,14 @@
 import { Paper } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
 import { microgridDummyData } from "@/models/nodeStatus";
 
 export default function TableMapper() {
-  const [microGrids, setMicroGrids] = useState<Microgrid[]>(microgridDummyData)
+  const [microGrids, setMicroGrids] = useState<Microgrid[]>([])
+
+  useEffect(() => {
+    setMicroGrids(microgridDummyData);
+  }, []);
 
   return (
       <Paper
@@ -18,7 +22,7 @@ export default function TableMapper() {
         }}
       >
       {microGrids?.map((grid) => (
-        <MonitoringTable microgrid={grid}/>
+        <MonitoringTable key={grid.id} microgrid={grid}/>
       ))}
       </Paper>
     );

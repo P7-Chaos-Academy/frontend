@@ -1,12 +1,17 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NodeBox from "./NodeBox";
 import { microgridDummyData } from "@/models/nodeStatus";
 
 export default function MicrogridBox() {
     // Dummy data for microgrids, nodes, and logs
-    const [microgrids, setMicrogrids] = useState<Microgrid[]>(microgridDummyData);
+    const [microgrids, setMicrogrids] = useState<Microgrid[]>([]);
   
+    useEffect(() => {
+      // In a real app, fetch microgrid and node log data from an API here
+      setMicrogrids(microgridDummyData);
+    }, []);
+
   return (
     <Box
         sx={{
@@ -42,7 +47,7 @@ export default function MicrogridBox() {
               </Typography>
 
               {grid.nodes.map((node) => (
-                <NodeBox node={node}/>
+                <NodeBox key={node.id} node={node}/>
               ))}
             </Paper>
           </Box>
