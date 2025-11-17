@@ -4,7 +4,7 @@ interface GridNode {
   id: string;
   name: string;
   logs: LogEntry[];
-  node: NodeStatus
+  node: NodeStatus;
 }
 
 interface Microgrid {
@@ -20,4 +20,4 @@ interface NodeStatus {
   cpu: string;
   memory: string;
   uptime: string;
-};
+}
