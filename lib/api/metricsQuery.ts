@@ -1,5 +1,5 @@
 import { apiFetch } from "./client";
-/* eslint-disable comma-dangle */
+
 export async function getMetricsQuery(
   metricId: number,
   startDate: Date,
@@ -14,8 +14,7 @@ export async function getMetricsQuery(
       startTime: startDate.toISOString(),
       endTime: endDate.toISOString(),
       step: step,
-      isRange: true,
+      isRange: true
     }),
   });
 }
-/* eslint-enable comma-dangle */
