@@ -1,19 +1,20 @@
+import { MetricDataPoint } from "@/models/prometheusMetrics";
 import { Box, TableCell, TableRow } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function NodeTable(node: {node: GridNode}) {
+export default function NodeTable(node: {node: MetricDataPoint}) {
   const router = useRouter();
 
   return (
     <TableRow 
     hover
     sx={{ cursor: "pointer" }}
-    onClick={() => router.push(`/monitoring/${node.node.node.id}?name=${encodeURIComponent(node.node.node.name)}`)
+    onClick={() => router.push(`/monitoring/${node.node.metric.instance}?name=${encodeURIComponent(node.node.metric.instance)}`)
 }
-    key={node.node.node.id}
+    key={node.node.metric.instance}
     >
-        <TableCell>{node.node.node.id}</TableCell>
-        <TableCell>{node.node.node.name}</TableCell>
+        <TableCell>{node.node.metric.instance}</TableCell>
+        <TableCell>{node.node.metric.__name__}</TableCell>
 
         <TableCell>
             <Box
@@ -22,29 +23,17 @@ export default function NodeTable(node: {node: GridNode}) {
                 px: 1.5,
                 py: 0.5,
                 borderRadius: 2,
-                backgroundColor:
-                    node.node.node.status === "Healthy"
-                    ? "rgba(16,185,129,0.1)"
-                    : node.node.node.status === "Terminated"
-                    ? "rgba(245,158,11,0.1)"
-                    : "rgba(239,68,68,0.1)",
-                color:
-                    node.node.node.status === "Healthy"
-                    ? "#10b981"
-                    : node.node.node.status === "Terminated"
-                    ? "#f59e0b"
-                    : "#ef4444",
+                backgroundColor: "rgba(16,185,129,0.1)",
+                color: "#10b981",
                 fontWeight: 500,
                 fontSize: "0.875rem",
                 }}
             >
-                {node.node.node.status}
+                {node.node.metric.job}
             </Box>
         </TableCell>
 
-        <TableCell>{node.node.node.cpu}</TableCell>
-        <TableCell>{node.node.node.memory}</TableCell>
-        <TableCell>{node.node.node.uptime}</TableCell>
+        <TableCell>{node.node.values[0]}</TableCell>
     </TableRow>
   );
 }

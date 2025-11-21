@@ -1,13 +1,26 @@
 import { Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
-import { microgridDummyData } from "@/models/nodeStatus";
+import { getMetricsQuery } from "@/lib/api/metricsQuery";
+import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
 export default function TableMapper() {
-  const [microGrids, setMicroGrids] = useState<Microgrid[]>([])
+  const [microGrids, setMicroGrids] = useState<PrometheusMatrixResponse>()
 
   useEffect(() => {
-    setMicroGrids(microgridDummyData);
+    const fetchData = async () => {
+      await getMetricsQuery(
+        3,
+        new Date(Date.now()),
+        new Date(Date.now()),
+        "60s",
+        undefined
+      ).then((response) => {
+        const jsonResponse: PrometheusMatrixResponse = JSON.parse(response);
+        setMicroGrids(jsonResponse);
+      });
+    };
+    fetchData();
   }, []);
 
   return (
@@ -21,8 +34,8 @@ export default function TableMapper() {
           boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
         }}
       >
-      {microGrids?.map((grid) => (
-        <MonitoringTable key={grid.id} microgrid={grid}/>
+      {microGrids?.data.result.map((grid) => (
+        <MonitoringTable key={grid.metric.instance} microgrid={microGrids.data.result}/>
       ))}
       </Paper>
     );
