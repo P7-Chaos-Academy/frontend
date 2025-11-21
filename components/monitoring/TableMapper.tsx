@@ -6,22 +6,29 @@ import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
 export default function TableMapper() {
   const [microGrids, setMicroGrids] = useState<PrometheusMatrixResponse>()
+  const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      const date: Date = new Date(Date.now());
+      const UTCDate: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds()))
       await getMetricsQuery(
         3,
-        new Date(Date.now()),
-        new Date(Date.now()),
+        UTCDate,
+        UTCDate,
         "60s",
-        undefined
+        "172.25.26.200:9100"
       ).then((response) => {
+        console.log("Fetched Metrics Response:", response);
+        console.log("Date: ", UTCDate.toISOString());
         const jsonResponse: PrometheusMatrixResponse = JSON.parse(response);
         setMicroGrids(jsonResponse);
       });
     };
     fetchData();
-  }, []);
+  }, [update]);
 
   return (
       <Paper
