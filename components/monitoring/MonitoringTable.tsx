@@ -1,13 +1,13 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import NodeTable from "./NodeTable";
-import { MetricDataPoint } from "@/models/prometheusMetrics";
+import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
-export default function MonitoringTable(microgrid: {microgrid: MetricDataPoint[]}) {
+export default function MonitoringTable(microgrid: {microgrid: PrometheusMatrixResponse, id:string}, ) {
     
     return (
       <>
         <Typography variant="h6" fontWeight={600} gutterBottom>
-        {"BingBong" + microgrid.microgrid[0].metric.instance}
+        {microgrid.id}
         </Typography>
 
         <TableContainer>
@@ -19,13 +19,13 @@ export default function MonitoringTable(microgrid: {microgrid: MetricDataPoint[]
                 <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>CPU Usage</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Memory Usage</TableCell>
-                <TableCell sx={{ fontWeight: 600 }}>Uptime</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Power Usage</TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {microgrid.microgrid.map((node) => (
-                <NodeTable key={node.metric.instance} node={node}/>
+              {microgrid.microgrid.data.result.map((node) => (
+                <NodeTable id={microgrid.id} key={node.metric.instance} node={node}/>
               ))}
             </TableBody>
           </Table>

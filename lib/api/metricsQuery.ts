@@ -17,6 +17,6 @@ export async function getMetricsQuery(
       step: step,
       isRange: true,
       instance: instance
-    }),
+    })
   });
 }

@@ -8,6 +8,29 @@ export default function TableMapper() {
   const [microGrids, setMicroGrids] = useState<PrometheusMatrixResponse>()
   const [update, setUpdate] = useState<boolean>(false);
 
+  /*useEffect(() => {
+    const registerMetrics = async () => {
+      // Register the metric
+      await apiFetch<void>("/api/Metrics/metrics", {
+        method: "POST",
+        body: JSON.stringify({
+          name: "Node Energy Consumption",
+          description: "Node Energy Consumption in Watts",
+          prometheusIdentifier: "jetson_pom_5v_in_watts",
+          unit: "w",
+        }),
+      });
+
+      // Fetch the metrics
+      const response = await apiFetch<unknown>("/api/Metrics/metrics", {
+        method: "GET",
+      });
+      console.log("Metrics fetched: ", response);
+    };
+
+    registerMetrics();
+  }, []); */
+
   useEffect(() => {
     const fetchData = async () => {
       const date: Date = new Date(Date.now());
@@ -15,11 +38,11 @@ export default function TableMapper() {
                 date.getUTCDate(), date.getUTCHours(),
                 date.getUTCMinutes(), date.getUTCSeconds()))
       await getMetricsQuery(
-        3,
+        9,
         UTCDate,
         UTCDate,
         "60s",
-        "172.25.26.200:9100"
+        undefined
       ).then((response) => {
         console.log("Fetched Metrics Response:", response);
         console.log("Date: ", UTCDate.toISOString());
@@ -41,9 +64,8 @@ export default function TableMapper() {
           boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
         }}
       >
-      {microGrids?.data.result.map((grid) => (
-        <MonitoringTable key={grid.metric.instance} microgrid={microGrids.data.result}/>
-      ))}
+
+      {microGrids && <MonitoringTable microgrid={microGrids} id={microGrids.data.result[0].metric.instance} key={microGrids.data.result[0].metric.instance}/>}
       </Paper>
     );
 }

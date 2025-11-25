@@ -2,7 +2,7 @@ import { MetricDataPoint } from "@/models/prometheusMetrics";
 import { Box, TableCell, TableRow } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function NodeTable(node: {node: MetricDataPoint}) {
+export default function NodeTable(node: {node: MetricDataPoint, id:string}) {
   const router = useRouter();
 
   return (
@@ -14,7 +14,7 @@ export default function NodeTable(node: {node: MetricDataPoint}) {
     key={node.node.metric.instance}
     >
         <TableCell>{node.node.metric.instance}</TableCell>
-        <TableCell>{node.node.metric.__name__}</TableCell>
+        <TableCell></TableCell>
 
         <TableCell>
             <Box
@@ -29,11 +29,13 @@ export default function NodeTable(node: {node: MetricDataPoint}) {
                 fontSize: "0.875rem",
                 }}
             >
-                {node.node.metric.job}
+                {node.node.values[0][1] ? "Online" : "Offline"}
             </Box>
         </TableCell>
 
-        <TableCell>{node.node.values[0]}</TableCell>
+        <TableCell>{}</TableCell>
+        <TableCell>{}</TableCell>
+        <TableCell>{node.node.values[0][1]}</TableCell>
     </TableRow>
   );
 }

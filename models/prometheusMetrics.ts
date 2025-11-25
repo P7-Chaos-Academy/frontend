@@ -31,3 +31,7 @@ export interface MetricDataPointWithNumbers {
   metric: PrometheusMetric;
   values: Array<[number, number]>;
 }
+
+export interface MicrogridArray {
+  microgrids: PrometheusMatrixResponse[];
+}
