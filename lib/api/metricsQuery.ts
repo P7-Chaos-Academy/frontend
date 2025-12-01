@@ -1,11 +1,12 @@
 import { apiFetch } from "./client";
 
+
 export async function getMetricsQuery(
-  metricId: number,
+  metricId: number[],
   startDate: Date,
   endDate: Date,
   step: string,
-  instance: string | undefined
+  instance: string | undefined | null
 ): Promise<string> {
   return apiFetch<string>("/api/Metrics/query", {
     method: "POST",
@@ -16,7 +17,7 @@ export async function getMetricsQuery(
       endTime: endDate.toISOString(),
       step: step,
       isRange: true,
-      instance: instance
+      instance: instance,
     })
   });
 }
