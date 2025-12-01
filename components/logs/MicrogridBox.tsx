@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import NodeBox from "./NodeBox";
 import { microgridDummyData } from "@/models/nodeStatus";
 import { getMetricsQuery } from "@/lib/api/metricsQuery";
+import McBox from "./McBox";
 
 export default function MicrogridBox() {
     // Microgrids state
@@ -77,9 +78,7 @@ export default function MicrogridBox() {
                 {grid.name}
               </Typography>
 
-              {grid.nodes.map((node) => (
-                <NodeBox key={node.id} node={node}/>
-              ))}
+              <McBox grid={grid} />
             </Paper>
           </Box>
         ))}
