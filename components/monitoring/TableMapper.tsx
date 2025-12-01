@@ -38,10 +38,10 @@ export default function TableMapper() {
                 date.getUTCDate(), date.getUTCHours(),
                 date.getUTCMinutes(), date.getUTCSeconds()))
       await getMetricsQuery(
-        9,
+        [3, 4, 5],
         UTCDate,
         UTCDate,
-        "60s",
+        "30s",
         undefined
       ).then((response) => {
         console.log("Fetched Metrics Response:", response);

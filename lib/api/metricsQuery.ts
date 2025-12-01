@@ -1,8 +1,7 @@
 import { apiFetch } from "./client";
 
-
 export async function getMetricsQuery(
-  metricId: number[],
+  metricIds: number[],
   startDate: Date,
   endDate: Date,
   step: string,
@@ -11,7 +10,7 @@ export async function getMetricsQuery(
   return apiFetch<string>("/api/Metrics/query", {
     method: "POST",
     body: JSON.stringify({
-      metricId: metricId,
+      metricIds: metricIds,
       time: endDate.toISOString(),
       startTime: startDate.toISOString(),
       endTime: endDate.toISOString(),

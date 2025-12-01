@@ -15,7 +15,7 @@ export default function MicrogridBox() {
         const startDate = new Date(endDate.getTime() - 5 * 60 * 1000); // 5 minutes earlier
 
         try {
-          const text = await getMetricsQuery([1, 2, 3], startDate, endDate, "30s", null);
+          const text = await getMetricsQuery([3, 4, 5], startDate, endDate, "30s", null);
 
           let parsed: any;
           try {
