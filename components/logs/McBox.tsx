@@ -1,4 +1,3 @@
-import React from 'react'
 import NodeBox from './NodeBox'
 
 export default function McBox(grid: {grid: Microgrid}) {

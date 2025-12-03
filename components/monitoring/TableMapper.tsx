@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
 import { bundleByInstance, getMetricsQueryNotRange, InstanceBundle } from "@/lib/api/metricsQuery";
@@ -12,29 +12,6 @@ export default function TableMapper() {
   ];
   const [microGrids, setMicroGrids] = useState<InstanceBundle[]>(DummyInstanceBundles);
   const [update, setUpdate] = useState<boolean>(false);
-
-  /*useEffect(() => {
-    const registerMetrics = async () => {
-      // Register the metric
-      await apiFetch<void>("/api/Metrics/metrics", {
-        method: "POST",
-        body: JSON.stringify({
-          name: "Node Energy Consumption",
-          description: "Node Energy Consumption in Watts",
-          prometheusIdentifier: "jetson_pom_5v_in_watts",
-          unit: "w",
-        }),
-      });
-
-      // Fetch the metrics
-      const response = await apiFetch<unknown>("/api/Metrics/metrics", {
-        method: "GET",
-      });
-      console.log("Metrics fetched: ", response);
-    };
-
-    registerMetrics();
-  }, []); */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,16 +33,17 @@ export default function TableMapper() {
   }, [update]);
 
   return (
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          borderRadius: 3,
-          border: "1px solid rgba(15, 23, 42, 0.08)",
-          backgroundColor: "#ffffff",
-          boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
-        }}
-      >
+    <Paper
+    elevation={0}
+    sx={{
+      p: 3,
+      borderRadius: 3,
+      border: "1px solid rgba(15, 23, 42, 0.08)",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
+    }}
+    >
+      <Button onClick={() => setUpdate(!update)}>Refresh Data</Button>
       {microGrids.length > 0 && (
         <MonitoringTable microgrid={microGrids} id="all-nodes" key="monitoring-table"/>
       )}

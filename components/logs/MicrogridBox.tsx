@@ -1,6 +1,5 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import NodeBox from "./NodeBox";
 import { microgridDummyData } from "@/models/nodeStatus";
 import { getMetricsQuery } from "@/lib/api/metricsQuery";
 import McBox from "./McBox";
@@ -17,7 +16,7 @@ export default function MicrogridBox() {
         try {
           const text = await getMetricsQuery([3, 4, 5], startDate, endDate, "30s", null);
 
-          let parsed: any;
+          let parsed: Record<string, unknown>;
           try {
             parsed = JSON.parse(text);
           } catch (err) {
