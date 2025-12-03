@@ -7,7 +7,7 @@ export async function getMetricsQuery(
   startDate: Date,
   endDate: Date,
   step: string,
-  instance: string | undefined | null
+  instance: string | undefined | null,
 ): Promise<string> {
   return apiFetch<string>("/api/Metrics/query", {
     method: "POST",
@@ -19,7 +19,7 @@ export async function getMetricsQuery(
       step: step,
       isRange: true,
       instance: instance,
-    })
+    }),
   });
 }
 
@@ -29,7 +29,9 @@ export type InstanceBundle = {
 };
 
 // Convert to an array of instance bundles
-export function bundleByInstance(input: PrometheusMatrixResponse): InstanceBundle[] {
+export function bundleByInstance(
+  input: PrometheusMatrixResponse,
+): InstanceBundle[] {
   const temp: Record<string, Record<string, string>> = {};
 
   if (!input.data?.result) {
@@ -40,11 +42,11 @@ export function bundleByInstance(input: PrometheusMatrixResponse): InstanceBundl
   for (const item of input.data.result) {
     const instance = item.metric?.instance;
     const metricName = item.metric?.__name__;
-    
+
     // Get the value from the API response - it's a pair [timestamp, value]
     const valueArray = (item as any).value;
     const metricValue = Array.isArray(valueArray) ? valueArray[1] : valueArray;
-    
+
     if (!instance || !metricName || !metricValue) {
       continue;
     }
@@ -59,13 +61,13 @@ export function bundleByInstance(input: PrometheusMatrixResponse): InstanceBundl
   // Turn the object-of-objects into a neat array
   return Object.entries(temp).map(([instance, metrics]) => ({
     instance,
-    metrics
+    metrics,
   }));
 }
 export async function getMetricsQueryNotRange(
   metricIds: number[],
   time: Date,
-  instance: string | undefined | null
+  instance: string | undefined | null,
 ): Promise<string> {
   return apiFetch<string>("/api/Metrics/query", {
     method: "POST",
@@ -74,6 +76,6 @@ export async function getMetricsQueryNotRange(
       time: time.toISOString(),
       isRange: false,
       instance: instance,
-    })
+    }),
   });
 }
