@@ -1,4 +1,4 @@
-import { Box, Table, TableCell, TableRow } from "@mui/material";
+import { Box, TableCell, TableRow } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function NodeTable(node: {node: Record<string, string>, id:string}) {
