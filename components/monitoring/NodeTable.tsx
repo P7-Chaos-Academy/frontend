@@ -1,4 +1,4 @@
-import { Box, TableCell, TableRow } from "@mui/material";
+import { Box, Table, TableCell, TableRow } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export default function NodeTable(node: {node: Record<string, string>, id:string}) {
@@ -6,7 +6,8 @@ export default function NodeTable(node: {node: Record<string, string>, id:string
 
   const jetsonPower = node.node.jetson_pom_5v_in_watts || "N/A";
   const jetsonCpuTemp = node.node.jetson_cpu_temp || "N/A";
-  const jetsomCpuLoad = node.node.jetson_cpu_load_percent || "N/A";
+  const jetsonCpuLoad = node.node.jetson_cpu_load_percent || "N/A";
+  const jetsonGpuLoad = node.node.jetson_gpu_load_percent || "N/A";
   const upStatus = node.node.up === "1" ? "Online" : "Offline";
   const nodeInstance = node.id;
   const statusColor = upStatus === "Online" ? "#10b981" : "#ef4444";
@@ -38,8 +39,8 @@ export default function NodeTable(node: {node: Record<string, string>, id:string
               {upStatus}
             </Box>
         </TableCell>
-
-        <TableCell>{jetsomCpuLoad}%</TableCell>
+        <TableCell>{jetsonCpuLoad}%</TableCell>
+        <TableCell>{jetsonGpuLoad}%</TableCell>
         <TableCell>{jetsonCpuTemp}°C</TableCell>
         <TableCell>{jetsonPower} W</TableCell>
     </TableRow>

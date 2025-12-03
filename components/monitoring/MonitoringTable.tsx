@@ -17,6 +17,7 @@ export default function MonitoringTable(microgrid: {microgrid: InstanceBundle[],
                 <TableCell sx={{ fontWeight: 600 }}>Name</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Status</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>CPU Usage</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>GPU Usage</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>CPU Temp</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Power Usage</TableCell>
               </TableRow>
