@@ -1,29 +1,52 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
-import { microgridDummyData } from "@/models/nodeStatus";
+import { bundleByInstance, getMetricsQueryNotRange, InstanceBundle } from "@/lib/api/metricsQuery";
+import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
 export default function TableMapper() {
-  const [microGrids, setMicroGrids] = useState<Microgrid[]>([])
+  const DummyInstanceBundles: InstanceBundle[] = [
+    {instance: "node-1", metrics: {"cpu_usage":"45","memory_usage":"2048","power_usage":"150"}},
+    {instance: "node-2", metrics: {"cpu_usage":"55","memory_usage":"3072","power_usage":"200"}},
+    {instance: "node-3", metrics: {"cpu_usage":"35","memory_usage":"1024","power_usage":"100"}},
+  ];
+  const [microGrids, setMicroGrids] = useState<InstanceBundle[]>(DummyInstanceBundles);
+  const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
-    setMicroGrids(microgridDummyData);
-  }, []);
+    const fetchData = async () => {
+      const date: Date = new Date(Date.now());
+      const UTCDate: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds()))
+      await getMetricsQueryNotRange(
+        [5, 6, 7, 10, 11],
+        UTCDate,
+        undefined
+      ).then((response) => {
+        const jsonResponse: PrometheusMatrixResponse = JSON.parse(response);
+        const parsedResponse: InstanceBundle[] = bundleByInstance(jsonResponse);
+        setMicroGrids(parsedResponse);
+      });
+    };
+    fetchData();
+  }, [update]);
 
   return (
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          borderRadius: 3,
-          border: "1px solid rgba(15, 23, 42, 0.08)",
-          backgroundColor: "#ffffff",
-          boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
-        }}
-      >
-      {microGrids?.map((grid) => (
-        <MonitoringTable key={grid.id} microgrid={grid}/>
-      ))}
+    <Paper
+    elevation={0}
+    sx={{
+      p: 3,
+      borderRadius: 3,
+      border: "1px solid rgba(15, 23, 42, 0.08)",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
+    }}
+    >
+      <Button onClick={() => setUpdate(!update)}>Refresh Data</Button>
+      {microGrids.length > 0 && (
+        <MonitoringTable microgrid={microGrids} id="all-nodes" key="monitoring-table"/>
+      )}
       </Paper>
     );
 }

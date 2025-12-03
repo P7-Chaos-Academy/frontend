@@ -1,19 +1,27 @@
 import { Box, TableCell, TableRow } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function NodeTable(node: {node: GridNode}) {
+export default function NodeTable(node: {node: Record<string, string>, id:string}) {
   const router = useRouter();
+
+  const jetsonPower = node.node.jetson_pom_5v_in_watts || "N/A";
+  const jetsonCpuTemp = node.node.jetson_cpu_temp || "N/A";
+  const jetsonCpuLoad = node.node.jetson_cpu_load_percent || "N/A";
+  const jetsonGpuLoad = node.node.jetson_gpu_load_percent || "N/A";
+  const upStatus = node.node.up === "1" ? "Online" : "Offline";
+  const nodeInstance = node.id;
+  const statusColor = upStatus === "Online" ? "#10b981" : "#ef4444";
+  const statusBgColor = upStatus === "Online" ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)";
 
   return (
     <TableRow 
-    hover
-    sx={{ cursor: "pointer" }}
-    onClick={() => router.push(`/monitoring/${node.node.node.id}?name=${encodeURIComponent(node.node.node.name)}`)
-}
-    key={node.node.node.id}
+      hover
+      sx={{ cursor: "pointer" }}
+      onClick={() => router.push(`/monitoring/${nodeInstance}?name=${encodeURIComponent(nodeInstance)}`)}
+      key={nodeInstance}
     >
-        <TableCell>{node.node.node.id}</TableCell>
-        <TableCell>{node.node.node.name}</TableCell>
+        <TableCell>{nodeInstance}</TableCell>
+        <TableCell>{nodeInstance}</TableCell>
 
         <TableCell>
             <Box
@@ -22,29 +30,19 @@ export default function NodeTable(node: {node: GridNode}) {
                 px: 1.5,
                 py: 0.5,
                 borderRadius: 2,
-                backgroundColor:
-                    node.node.node.status === "Healthy"
-                    ? "rgba(16,185,129,0.1)"
-                    : node.node.node.status === "Terminated"
-                    ? "rgba(245,158,11,0.1)"
-                    : "rgba(239,68,68,0.1)",
-                color:
-                    node.node.node.status === "Healthy"
-                    ? "#10b981"
-                    : node.node.node.status === "Terminated"
-                    ? "#f59e0b"
-                    : "#ef4444",
+                backgroundColor: statusBgColor,
+                color: statusColor,
                 fontWeight: 500,
                 fontSize: "0.875rem",
-                }}
+                }}  
             >
-                {node.node.node.status}
+              {upStatus}
             </Box>
         </TableCell>
-
-        <TableCell>{node.node.node.cpu}</TableCell>
-        <TableCell>{node.node.node.memory}</TableCell>
-        <TableCell>{node.node.node.uptime}</TableCell>
+        <TableCell>{jetsonCpuLoad}%</TableCell>
+        <TableCell>{jetsonGpuLoad}%</TableCell>
+        <TableCell>{jetsonCpuTemp}°C</TableCell>
+        <TableCell>{jetsonPower} W</TableCell>
     </TableRow>
   );
 }

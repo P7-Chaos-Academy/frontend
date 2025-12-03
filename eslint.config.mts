@@ -7,17 +7,17 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    plugins: { js, react: pluginReact},
+    plugins: { js, react: pluginReact },
     extends: ["js/recommended"],
-    languageOptions: { 
+    languageOptions: {
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
-        project: './tsconfig.json',
-      }, 
+        project: "./tsconfig.json",
+      },
     },
     settings: {
       react: { version: "detect" },
-      'import/resolver': {
+      "import/resolver": {
         typescript: true,
       },
     },
@@ -27,7 +27,8 @@ export default defineConfig([
       "no-import-assign": "off",
       "typescript-eslint/no-unused-vars": "off",
       "n/no-missing-import": "off",
-    }
+      "comma-dangle": "off",
+    },
   },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,

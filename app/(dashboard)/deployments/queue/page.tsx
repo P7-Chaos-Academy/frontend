@@ -7,12 +7,17 @@ import {
   Stack,
   Typography,
   Button,
-  Grid,
   Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 type QueueJob = {
   id: string;
@@ -28,7 +33,6 @@ export default function QueuePage() {
 
   const [jobs, setJobs] = useState<QueueJob[]>([]);
 
-  // Dummy API fetch (replace later)
   useEffect(() => {
     setJobs([
       {
@@ -36,22 +40,22 @@ export default function QueuePage() {
         type: "LLM Query – Type A",
         node: "Node-03",
         submittedAt: "2025-05-12 14:02",
-        status: "Pending",
+        status: "Pending"
       },
       {
         id: "job-2",
         type: "LLM Query – Type B",
         node: "Node-07",
         submittedAt: "2025-05-12 13:47",
-        status: "Running",
+        status: "Running"
       },
       {
         id: "job-3",
         type: "LLM Query – Type C",
         node: "Node-02",
         submittedAt: "2025-05-12 13:10",
-        status: "Failed",
-      },
+        status: "Failed"
+      }
     ]);
   }, []);
 
@@ -72,7 +76,7 @@ export default function QueuePage() {
           background:
             "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 45%, #2563eb 100%)",
           color: "#f8fafc",
-          boxShadow: "0 35px 65px rgba(14, 165, 233, 0.28)",
+          boxShadow: "0 35px 65px rgba(14, 165, 233, 0.28)"
         }}
       >
         <Stack spacing={1.5}>
@@ -88,114 +92,151 @@ export default function QueuePage() {
         </Stack>
       </Paper>
 
-      {/* JOB QUEUE LIST */}
-        <Grid container spacing={3}>
-        {jobs.map((job, index) => (
-            <Grid
-            key={job.id}
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            display="flex"
-            justifyContent="center"
+      {/* TABLE VERSION OF QUEUE */}
+      <Paper
+        elevation={0}
+        sx={{
+          borderRadius: 4,
+          overflow: "hidden",
+          border: "1px solid rgba(15, 23, 42, 0.08)",
+          boxShadow: "0 25px 60px rgba(15, 23, 42, 0.06)",
+          p: 2,
+        }}
+      >
+        <TableContainer
+          sx={{
+            borderRadius: 3,
+            overflow: "hidden",
+          }}
+        >
+          <Box
+            sx={{
+              "@keyframes fadeInUp": {
+                from: { opacity: 0, transform: "translateY(10px)" },
+                to: { opacity: 1, transform: "translateY(0)" },
+              },
+            }}
+          >
+          <Table
+             sx={{
+              "& th": {
+                py: 2.2,
+                px: 2.5,          
+                textAlign: "left",
+                fontWeight: 700,
+                color: "rgba(15, 23, 42, 0.8)",
+              },
 
-            minWidth="310px"
-            flexGrow="1"
-            flexBasis="300px"
-            >
-                <Paper
-                    elevation={0}
-                    sx={{
-                    p: 3,
-                    borderRadius: 3,
-                    border: "1px solid rgba(15, 23, 42, 0.08)",
-                    backgroundColor: "#ffffff",
-                    boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
-                    maxWidth: "400px",
-                    minWidth: "300px",
-                    width: "100%",
-                    }}
-                >
-                    <Stack spacing={2}>
-                    {/* NUMBERING */}
-                    <Typography
-                        variant="overline"
-                        sx={{ fontWeight: 700, opacity: 0.6 }}
+              "& td": {
+                py: 2.2,
+                px: 2.5,          
+                textAlign: "left",
+              },
+
+              "& th:last-child, & td:last-child": {
+                textAlign: "center",
+                width: "120px",
+              },
+
+              "& tbody tr:hover": {
+                backgroundColor: "rgba(148, 163, 184, 0.08)", // soft slate hover
+                transition: "background-color 0.2s ease",
+              },
+            }}
+          >
+            <TableHead>
+              <TableRow
+                sx={{
+                  "& th": {
+                    fontWeight: 700,
+                    backgroundColor: "rgba(15, 23, 42, 0.03)"
+                  }
+                }}
+              >
+                <TableCell>#</TableCell>
+                <TableCell>Job Type</TableCell>
+                <TableCell>Node</TableCell>
+                <TableCell>Submitted</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell align="right">Action</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {jobs.map((job, index) => (
+                <TableRow key={job.id}>
+                  {/* Numbering */}
+                  <TableCell
+                    sx={{ width: 50, fontWeight: 600, opacity: 0.7 }}
+                  >{`#${index + 1}`}</TableCell>
+
+                  {/* Job Type */}
+                  <TableCell sx={{ fontWeight: 600 }}>{job.type}</TableCell>
+
+                  {/* Node */}
+                  <TableCell>{job.node}</TableCell>
+
+                  {/* Submitted */}
+                  <TableCell>{job.submittedAt}</TableCell>
+
+                  {/* Status chip */}
+                  <TableCell>
+                    <Chip
+                      label={job.status}
+                      sx={{
+                        fontWeight: 600,
+                        backgroundColor:
+                          job.status === "Pending"
+                            ? "rgba(245, 158, 11, 0.15)"
+                            : job.status === "Running"
+                            ? "rgba(16, 185, 129, 0.15)"
+                            : "rgba(239, 68, 68, 0.15)",
+                        color:
+                          job.status === "Pending"
+                            ? "#f59e0b"
+                            : job.status === "Running"
+                            ? "#10b981"
+                            : "#ef4444"
+                      }}
+                    />
+                  </TableCell>
+
+                  {/* Cancel button */}
+                  <TableCell align="right">
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() =>
+                        setJobs(prev => prev.filter(j => j.id !== job.id))
+                      }
+                      sx={{
+                        borderRadius: 2,
+                        textTransform: "none",
+                        fontWeight: 600,
+                        px: 2,
+                        py: 0.8
+                      }}
                     >
-                        #{index + 1}
+                      <DeleteOutlineIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              {jobs.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                    <Typography sx={{ opacity: 0.7 }}>
+                      No jobs in queue.
                     </Typography>
-
-                        <Stack
-                        direction="column"
-                        spacing={2}
-                        sx={{
-                            width: "100%",
-                        }}
-                        >
-                        {/* JOB INFO */}
-                            <Box>
-                                <Typography variant="h6" fontWeight={600}>
-                                {job.type}
-                                </Typography>
-
-                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                                Node: {job.node}
-                                </Typography>
-
-                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                                Submitted: {job.submittedAt}
-                                </Typography>
-                            </Box>
-
-                        {/* STATUS BADGE */}
-                            <Chip
-                                label={job.status}
-                                sx={{
-                                fontWeight: 600,
-                                px: 1.5,
-                                py: 0.5,
-                                alignSelf: "flex-start",
-                                backgroundColor:
-                                    job.status === "Pending"
-                                    ? "rgba(245, 158, 11, 0.15)"
-                                    : job.status === "Running"
-                                    ? "rgba(16, 185, 129, 0.15)"
-                                    : "rgba(239, 68, 68, 0.15)",
-                                color:
-                                    job.status === "Pending"
-                                    ? "#f59e0b"
-                                    : job.status === "Running"
-                                    ? "#10b981"
-                                    : "#ef4444",
-                                }}
-                            />
-
-                        {/* CANCEL BUTTON */}
-                            <Button
-                                variant="contained"
-                                color="error"
-                                sx={{
-                                borderRadius: 2,
-                                textTransform: "none",
-                                fontWeight: 600,
-                                py: 1,
-                                px: 3,
-                                width: "100%",         // full width, clean mobile look
-                                alignSelf: "stretch",  // prevents any overflow anywhere
-                                }}
-                                onClick={() => {
-                                setJobs((prev) => prev.filter((j) => j.id !== job.id));
-                                }}
-                            >
-                                <DeleteOutlineIcon sx={{ mr: 1 }} />
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </Paper>
-            </Grid>
-        ))}
-        </Grid>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+          </Box>
+        </TableContainer>
+      </Paper>
     </Stack>
   );
 }

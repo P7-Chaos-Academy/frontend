@@ -1,15 +1,46 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import NodeBox from "./NodeBox";
 import { microgridDummyData } from "@/models/nodeStatus";
+import { getMetricsQuery } from "@/lib/api/metricsQuery";
+import McBox from "./McBox";
 
 export default function MicrogridBox() {
-    // Dummy data for microgrids, nodes, and logs
+    // Microgrids state
     const [microgrids, setMicrogrids] = useState<Microgrid[]>([]);
-  
+
     useEffect(() => {
-      // In a real app, fetch microgrid and node log data from an API here
-      setMicrogrids(microgridDummyData);
+      async function fetchMetricsAndPopulate() {
+        const endDate = new Date();
+        const startDate = new Date(endDate.getTime() - 5 * 60 * 1000); // 5 minutes earlier
+
+        try {
+          const text = await getMetricsQuery([3, 4, 5], startDate, endDate, "30s", null);
+
+          let parsed: Record<string, unknown>;
+          try {
+            parsed = JSON.parse(text);
+          } catch (err) {
+            // If the API returns plain text or an unexpected format, fallback
+            console.warn("metricsQuery returned non-JSON response, falling back to dummy data", err);
+            setMicrogrids(microgridDummyData);
+            return;
+          }
+
+          if (Array.isArray(parsed)) {
+            setMicrogrids(parsed as Microgrid[]);
+          } else if (parsed && Array.isArray(parsed.microgrids)) {
+            setMicrogrids(parsed.microgrids as Microgrid[]);
+          } else {
+            console.warn("metricsQuery returned unknown shape, using dummy data", parsed);
+            setMicrogrids(microgridDummyData);
+          }
+        } catch (err) {
+          console.error("Error fetching metricsQuery:", err);
+          setMicrogrids(microgridDummyData);
+        }
+      }
+
+      fetchMetricsAndPopulate();
     }, []);
 
   return (
@@ -46,9 +77,7 @@ export default function MicrogridBox() {
                 {grid.name}
               </Typography>
 
-              {grid.nodes.map((node) => (
-                <NodeBox key={node.id} node={node}/>
-              ))}
+              <McBox grid={grid} />
             </Paper>
           </Box>
         ))}
