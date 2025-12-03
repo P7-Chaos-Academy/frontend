@@ -6,6 +6,7 @@ export default function NodeTable(node: {node: Record<string, string>, id:string
 
   const jetsonPower = node.node.jetson_pom_5v_in_watts || "N/A";
   const jetsonCpuTemp = node.node.jetson_cpu_temp || "N/A";
+  const jetsomCpuLoad = node.node.jetson_cpu_load_percent || "N/A";
   const upStatus = node.node.up === "1" ? "Online" : "Offline";
   const nodeInstance = node.id;
   const statusColor = upStatus === "Online" ? "#10b981" : "#ef4444";
@@ -38,7 +39,7 @@ export default function NodeTable(node: {node: Record<string, string>, id:string
             </Box>
         </TableCell>
 
-        <TableCell>{}</TableCell>
+        <TableCell>{jetsomCpuLoad}%</TableCell>
         <TableCell>{jetsonCpuTemp}°C</TableCell>
         <TableCell>{jetsonPower} W</TableCell>
     </TableRow>
