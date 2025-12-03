@@ -1,11 +1,16 @@
 import { Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
-import { getMetricsQuery } from "@/lib/api/metricsQuery";
+import { bundleByInstance, getMetricsQueryNotRange, InstanceBundle } from "@/lib/api/metricsQuery";
 import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
 export default function TableMapper() {
-  const [microGrids, setMicroGrids] = useState<PrometheusMatrixResponse>()
+  const DummyInstanceBundles: InstanceBundle[] = [
+    {instance: "node-1", metrics: {"cpu_usage":"45","memory_usage":"2048","power_usage":"150"}},
+    {instance: "node-2", metrics: {"cpu_usage":"55","memory_usage":"3072","power_usage":"200"}},
+    {instance: "node-3", metrics: {"cpu_usage":"35","memory_usage":"1024","power_usage":"100"}},
+  ];
+  const [microGrids, setMicroGrids] = useState<InstanceBundle[]>(DummyInstanceBundles);
   const [update, setUpdate] = useState<boolean>(false);
 
   /*useEffect(() => {
@@ -37,17 +42,14 @@ export default function TableMapper() {
       const UTCDate: Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
                 date.getUTCDate(), date.getUTCHours(),
                 date.getUTCMinutes(), date.getUTCSeconds()))
-      await getMetricsQuery(
-        [3, 4, 5],
+      await getMetricsQueryNotRange(
+        [5, 6, 7],
         UTCDate,
-        UTCDate,
-        "30s",
         undefined
       ).then((response) => {
-        console.log("Fetched Metrics Response:", response);
-        console.log("Date: ", UTCDate.toISOString());
         const jsonResponse: PrometheusMatrixResponse = JSON.parse(response);
-        setMicroGrids(jsonResponse);
+        const parsedResponse: InstanceBundle[] = bundleByInstance(jsonResponse);
+        setMicroGrids(parsedResponse);
       });
     };
     fetchData();
@@ -64,8 +66,9 @@ export default function TableMapper() {
           boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
         }}
       >
-
-      {microGrids && <MonitoringTable microgrid={microGrids} id={microGrids.data.result[0].metric.instance} key={microGrids.data.result[0].metric.instance}/>}
+      {microGrids.length > 0 && (
+        <MonitoringTable microgrid={microGrids} id="all-nodes" key="monitoring-table"/>
+      )}
       </Paper>
     );
 }
