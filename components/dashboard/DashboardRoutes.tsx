@@ -30,9 +30,7 @@ export default function DashboardRoutes() {
   const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <FitbitIcon /> },
-    { label: "Monitoring", href: "/monitoring", icon: <DataUsageIcon /> },
-    { label: "Logs", href: "/logs", icon: <ChatIcon /> },
-  ];
+    { label: "Monitoring", href: "/monitoring", icon: <DataUsageIcon /> },  ];
 
   // Detect node page format: /monitoring/{nodeId}
   const cleaned = pathname.replace(/\/+$/, ""); // Remove trailing slash

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   Box,
-  Chip,
   CssBaseline,
   Divider,
   Drawer,
@@ -153,29 +152,6 @@ export default function DashboardShell({ children }: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Stack
-            direction="row"
-            spacing={2}
-            alignItems="center"
-            sx={{
-              ml: { xs: "auto", sm: 0 },
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              borderRadius: 3,
-              px: 3,
-              py: 1.5,
-              boxShadow: "0 20px 45px rgba(15, 23, 42, 0.08)",
-            }}
-          >
-            <Typography variant="body2" color="text.secondary">
-              Current environment
-            </Typography>
-            <Chip
-              label="Development"
-              color="primary"
-              variant="outlined"
-              size="small"
-            />
-          </Stack>
         </Box>
 
         {children}
