@@ -1,6 +1,5 @@
 import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 import { apiFetch } from "./client";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 export async function getMetricsQuery(
   metricIds: number[],
