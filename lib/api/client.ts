@@ -52,5 +52,5 @@ export async function apiFetch<T>(
   }
 
   const text = await response.text();
-  return text as unknown as T;
+  return JSON.parse(text) as T;
 }
