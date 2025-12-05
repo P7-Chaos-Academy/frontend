@@ -21,11 +21,7 @@ export default function JobsPage() {
   }
 
     const handlePromptSubmit = (data: PromptFormData) => {
-      console.log('Form submitted:', data);
       postJob(data)
-        .then((response) => {
-          console.log('Job posted successfully:', response);
-        })
         .catch((error) => {
           console.error('Error posting job:', error);
         });
