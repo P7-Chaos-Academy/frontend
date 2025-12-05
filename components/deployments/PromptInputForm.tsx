@@ -46,7 +46,7 @@ export default function PromptInputForm({ onSubmit }: PromptInputFormProps) {
             min: 0,
             max: 1,
           }}
-          helperText="Controls randomness (0 = deterministic, 2 = very random)"
+          helperText="Controls randomness (0 = deterministic, 1 = less deterministic)"
           fullWidth
           required
         />
