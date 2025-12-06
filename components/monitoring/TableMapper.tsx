@@ -2,7 +2,6 @@ import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import MonitoringTable from "./MonitoringTable";
 import { bundleByInstance, getMetricsQueryNotRange, InstanceBundle } from "@/lib/api/metricsQuery";
-import { PrometheusMatrixResponse } from "@/models/prometheusMetrics";
 
 export default function TableMapper() {
   const DummyInstanceBundles: InstanceBundle[] = [
@@ -24,8 +23,7 @@ export default function TableMapper() {
         UTCDate,
         undefined
       ).then((response) => {
-        const jsonResponse: PrometheusMatrixResponse = JSON.parse(response);
-        const parsedResponse: InstanceBundle[] = bundleByInstance(jsonResponse);
+        const parsedResponse: InstanceBundle[] = bundleByInstance(response);
         setMicroGrids(parsedResponse);
       });
     };

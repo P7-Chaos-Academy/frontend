@@ -7,8 +7,8 @@ export async function getMetricsQuery(
   endDate: Date,
   step: string,
   instance: string | undefined | null,
-): Promise<string> {
-  return apiFetch<string>("/api/Metrics/query", {
+): Promise<PrometheusMatrixResponse> {
+  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
     method: "POST",
     body: JSON.stringify({
       metricIds: metricIds,
@@ -76,8 +76,8 @@ export async function getMetricsQueryNotRange(
   metricIds: number[],
   time: Date,
   instance: string | undefined | null,
-): Promise<string> {
-  return apiFetch<string>("/api/Metrics/query", {
+): Promise<PrometheusMatrixResponse> {
+  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
     method: "POST",
     body: JSON.stringify({
       metricIds: metricIds,
