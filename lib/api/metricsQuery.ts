@@ -27,11 +27,11 @@ export type InstanceBundle = {
   metrics: Record<string, string>;
 };
 
-// Convert to an array of instance bundles
 export function bundleByInstance(
   input: PrometheusMatrixResponse,
 ): InstanceBundle[] {
   const temp: Record<string, Record<string, string>> = {};
+  const allMetricNames = new Set<string>();
 
   if (!input.data?.result) {
     console.warn("No result data found");
@@ -42,13 +42,14 @@ export function bundleByInstance(
     const instance = item.metric?.instance;
     const metricName = item.metric?.__name__;
 
-    // Get the value from the API response - it's a pair [timestamp, value]
-    const valueArray = (item as any).value;
+    const valueArray = item.value;
     const metricValue = Array.isArray(valueArray) ? valueArray[1] : valueArray;
 
-    if (!instance || !metricName || !metricValue) {
+    if (!instance || !metricName || metricValue === undefined) {
       continue;
     }
+
+    allMetricNames.add(metricName);
 
     if (!temp[instance]) {
       temp[instance] = {};
@@ -57,11 +58,19 @@ export function bundleByInstance(
     temp[instance][metricName] = metricValue;
   }
 
-  // Turn the object-of-objects into a neat array
-  return Object.entries(temp).map(([instance, metrics]) => ({
-    instance,
-    metrics,
-  }));
+  return Object.entries(temp).map(([instance, metrics]) => {
+    const filledMetrics: Record<string, string> = {};
+    
+    for (const metricName of Array.from(allMetricNames)) {
+      // Use the actual value if present, otherwise use "N/A"
+      filledMetrics[metricName] = metrics[metricName] ?? "N/A";
+    }
+
+    return {
+      instance,
+      metrics: filledMetrics,
+    };
+  });
 }
 export async function getMetricsQueryNotRange(
   metricIds: number[],

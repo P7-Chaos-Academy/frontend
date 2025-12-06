@@ -11,7 +11,7 @@ export interface PrometheusMetric {
 
 export interface MetricDataPoint {
   metric: PrometheusMetric;
-  value: Array<[number, string]>;
+  value: [number, string];
 }
 
 export interface PrometheusMatrixResponse {
