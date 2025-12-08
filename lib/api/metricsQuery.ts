@@ -60,7 +60,7 @@ export function bundleByInstance(
 
   return Object.entries(temp).map(([instance, metrics]) => {
     const filledMetrics: Record<string, string> = {};
-    
+
     for (const metricName of Array.from(allMetricNames)) {
       // Use the actual value if present, otherwise use "N/A"
       filledMetrics[metricName] = metrics[metricName] ?? "N/A";
