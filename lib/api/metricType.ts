@@ -1,17 +1,16 @@
 import { apiFetch } from "./client";
 
 export interface MetricType {
-    name: string;
-    description: string;
-    prometheusIdentifier: string;
-    unit?: string | null;
-    id: number;
-    checked: boolean;
+  name: string;
+  description: string;
+  prometheusIdentifier: string;
+  unit?: string | null;
+  id: number;
+  checked: boolean;
 }
 
-
 export async function getMetricTypes(): Promise<MetricType[]> {
-    return apiFetch<MetricType[]>("/api/Metrics/metrics", {
-        method: "GET"
-    })
+  return apiFetch<MetricType[]>("/api/Metrics/metrics", {
+    method: "GET",
+  });
 }
