@@ -57,7 +57,6 @@ export default function NodeDetailPage() {
     async function fetchMetrics() {
       if (!nodeId) return;
 
-      // Query configuration: use slider values for step and start date
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - startDateMinutes * 60 * 1000);
       const step = `${stepMinutes}m`;
@@ -65,7 +64,6 @@ export default function NodeDetailPage() {
       try {
         const resp = await getMetricsQuery(selectedMetricIds, startDate, endDate, step, nodeId as string);
 
-        // Map metric name -> series of {time, value}
         const metricData: Record<string, MetricEntry[]> = {};
 
         const results = resp.data?.result ?? [];
@@ -73,7 +71,6 @@ export default function NodeDetailPage() {
         for (const item of results) {
           const metricName: string = item.metric?.__name__ ?? "unknown";
           
-          // Handle both range queries (values) and instant queries (value)
           let dataPoints: Array<[number, string]> = [];
           if (item.values && Array.isArray(item.values)) {
             dataPoints = item.values;
