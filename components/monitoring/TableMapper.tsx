@@ -19,7 +19,7 @@ export default function TableMapper() {
                 date.getUTCDate(), date.getUTCHours(),
                 date.getUTCMinutes(), date.getUTCSeconds()))
       await getMetricsQueryNotRange(
-        [1, 2, 3, 4, 7],
+        [2, 4, 5, 6, 7],
         UTCDate,
         undefined
       ).then((response) => {
