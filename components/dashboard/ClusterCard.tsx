@@ -4,6 +4,7 @@ import { Cluster } from "@/lib/api/clusters";
 import {
   CheckCircle as CheckCircleIcon,
   Delete as DeleteIcon,
+  Edit as EditIcon,
 } from "@mui/icons-material";
 import {
   Box,
@@ -20,6 +21,7 @@ interface ClusterCardProps {
   isSelected: boolean;
   isDeleting: boolean;
   onSelect: () => void;
+  onEdit: (e: React.MouseEvent) => void;
   onDelete: (e: React.MouseEvent) => void;
 }
 
@@ -28,6 +30,7 @@ export default function ClusterCard({
   isSelected,
   isDeleting,
   onSelect,
+  onEdit,
   onDelete,
 }: ClusterCardProps) {
   return (
@@ -65,13 +68,26 @@ export default function ClusterCard({
               {cluster.description}
             </Typography>
           </Box>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={0.5}>
             <Chip
               label={isSelected ? "Selected" : "Select"}
               size="small"
               color={isSelected ? "primary" : "default"}
               variant={isSelected ? "filled" : "outlined"}
             />
+            <IconButton
+              size="small"
+              onClick={onEdit}
+              sx={{
+                color: "text.secondary",
+                "&:hover": {
+                  color: "primary.main",
+                  backgroundColor: "rgba(37, 99, 235, 0.08)",
+                },
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
             <IconButton
               size="small"
               onClick={onDelete}
