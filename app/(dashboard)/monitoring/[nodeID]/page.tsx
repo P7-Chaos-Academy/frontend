@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useCluster } from "@/contexts/ClusterContext";
 import {
   Paper,
   Typography,
@@ -37,6 +38,7 @@ interface NodeMetrics {
 
 export default function NodeDetailPage() {
   const params = useParams();
+  const { selectedClusterId } = useCluster();
   const nodeId = decodeURIComponent((params?.nodeID as string) || "");
   const [data, setData] = useState<NodeMetrics | null>(null);
   const [update, setUpdate] = useState<boolean>(false);
@@ -55,14 +57,14 @@ export default function NodeDetailPage() {
 
   useEffect(() => {
     async function fetchMetrics() {
-      if (!nodeId) return;
+      if (!nodeId || !selectedClusterId) return;
 
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - startDateMinutes * 60 * 1000);
       const step = `${stepMinutes}m`;
 
       try {
-        const resp = await getMetricsQuery(selectedMetricIds, startDate, endDate, step, nodeId as string);
+        const resp = await getMetricsQuery(selectedMetricIds, startDate, endDate, step, nodeId as string, selectedClusterId);
 
         const metricData: Record<string, MetricEntry[]> = {};
 
@@ -108,7 +110,7 @@ export default function NodeDetailPage() {
     }
 
     fetchMetrics();
-  }, [nodeId, update, stepMinutes, startDateMinutes, selectedMetricIds]);
+  }, [nodeId, update, stepMinutes, startDateMinutes, selectedMetricIds, selectedClusterId]);
 
   if (!data) {
     return (

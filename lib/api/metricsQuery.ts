@@ -7,6 +7,7 @@ export async function getMetricsQuery(
   endDate: Date,
   step: string,
   instance: string | undefined | null,
+  clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
   return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
     method: "POST",
@@ -18,6 +19,7 @@ export async function getMetricsQuery(
       step: step,
       isRange: true,
       instance: instance,
+      clusterId: clusterId,
     }),
   });
 }
@@ -72,10 +74,12 @@ export function bundleByInstance(
     };
   });
 }
+
 export async function getMetricsQueryNotRange(
   metricIds: number[],
   time: Date,
   instance: string | undefined | null,
+  clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
   return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
     method: "POST",
@@ -84,6 +88,7 @@ export async function getMetricsQueryNotRange(
       time: time.toISOString(),
       isRange: false,
       instance: instance,
+      clusterId: clusterId,
     }),
   });
 }

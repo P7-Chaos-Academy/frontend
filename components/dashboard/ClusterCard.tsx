@@ -1,0 +1,114 @@
+"use client";
+
+import { Cluster } from "@/lib/api/clusters";
+import {
+  CheckCircle as CheckCircleIcon,
+  Delete as DeleteIcon,
+} from "@mui/icons-material";
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+
+interface ClusterCardProps {
+  cluster: Cluster;
+  isSelected: boolean;
+  isDeleting: boolean;
+  onSelect: () => void;
+  onDelete: (e: React.MouseEvent) => void;
+}
+
+export default function ClusterCard({
+  cluster,
+  isSelected,
+  isDeleting,
+  onSelect,
+  onDelete,
+}: ClusterCardProps) {
+  return (
+    <Paper
+      elevation={0}
+      onClick={onSelect}
+      sx={{
+        p: 3,
+        borderRadius: 3,
+        border: isSelected ? "2px solid" : "1px solid rgba(15, 23, 42, 0.08)",
+        borderColor: isSelected ? "primary.main" : undefined,
+        backgroundColor: isSelected ? "rgba(37, 99, 235, 0.04)" : "#ffffff",
+        boxShadow: isSelected
+          ? "0 24px 50px rgba(37, 99, 235, 0.15)"
+          : "0 24px 50px rgba(15, 23, 42, 0.06)",
+        height: "100%",
+        cursor: "pointer",
+        transition: "all 0.2s ease-in-out",
+        "&:hover": {
+          borderColor: isSelected ? "primary.main" : "rgba(15, 23, 42, 0.2)",
+          boxShadow: "0 24px 50px rgba(15, 23, 42, 0.12)",
+        },
+      }}
+    >
+      <Stack spacing={2}>
+        <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
+          <Box>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="h6" fontWeight={600}>
+                {cluster.name}
+              </Typography>
+              {isSelected && <CheckCircleIcon color="primary" fontSize="small" />}
+            </Stack>
+            <Typography variant="body2" color="text.secondary">
+              {cluster.description}
+            </Typography>
+          </Box>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Chip
+              label={isSelected ? "Selected" : "Select"}
+              size="small"
+              color={isSelected ? "primary" : "default"}
+              variant={isSelected ? "filled" : "outlined"}
+            />
+            <IconButton
+              size="small"
+              onClick={onDelete}
+              disabled={isDeleting}
+              sx={{
+                color: "text.secondary",
+                "&:hover": {
+                  color: "error.main",
+                  backgroundColor: "rgba(211, 47, 47, 0.08)",
+                },
+              }}
+            >
+              {isDeleting ? (
+                <CircularProgress size={18} />
+              ) : (
+                <DeleteIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Stack>
+        </Stack>
+        <Box>
+          <Typography variant="caption" color="text.secondary" display="block">
+            API Endpoint
+          </Typography>
+          <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+            {cluster.apiEndpoint}
+          </Typography>
+        </Box>
+        <Box>
+          <Typography variant="caption" color="text.secondary" display="block">
+            Prometheus Endpoint
+          </Typography>
+          <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+            {cluster.prometheusEndpoint}
+          </Typography>
+        </Box>
+      </Stack>
+    </Paper>
+  );
+}
