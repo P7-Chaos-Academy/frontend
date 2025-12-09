@@ -1,7 +1,7 @@
 "use client";
 
 import { useCluster } from "@/contexts/ClusterContext";
-import { createCluster, deleteCluster } from "@/lib/api/clusters";
+import { Cluster, createCluster, deleteCluster, updateCluster } from "@/lib/api/clusters";
 import { Add as AddIcon } from "@mui/icons-material";
 import {
   Box,
@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import ClusterCard from "./ClusterCard";
 import CreateClusterDialog from "./CreateClusterDialog";
+import EditClusterDialog from "./EditClusterDialog";
 import EmptyClusterState from "./EmptyClusterState";
 import HeroBanner from "./HeroBanner";
 
@@ -22,6 +23,7 @@ export default function Dashboard() {
   const { clusters, loading, error, refetchClusters, selectedClusterId, setSelectedClusterId } =
     useCluster();
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editingCluster, setEditingCluster] = useState<Cluster | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -43,6 +45,16 @@ export default function Dashboard() {
 
   const handleCreateCluster = async (data: Parameters<typeof createCluster>[0]) => {
     await createCluster(data);
+    await refetchClusters();
+  };
+
+  const handleEditCluster = (e: React.MouseEvent, cluster: Cluster) => {
+    e.stopPropagation();
+    setEditingCluster(cluster);
+  };
+
+  const handleUpdateCluster = async (id: number, data: Parameters<typeof updateCluster>[1]) => {
+    await updateCluster(id, data);
     await refetchClusters();
   };
 
@@ -84,6 +96,7 @@ export default function Dashboard() {
               isSelected={cluster.id === selectedClusterId}
               isDeleting={deletingId === cluster.id}
               onSelect={() => setSelectedClusterId(cluster.id)}
+              onEdit={(e) => handleEditCluster(e, cluster)}
               onDelete={(e) => handleDeleteCluster(e, cluster.id)}
             />
           </Grid>
@@ -122,6 +135,13 @@ export default function Dashboard() {
         open={createDialogOpen}
         onClose={() => setCreateDialogOpen(false)}
         onSubmit={handleCreateCluster}
+      />
+
+      <EditClusterDialog
+        open={editingCluster !== null}
+        cluster={editingCluster}
+        onClose={() => setEditingCluster(null)}
+        onSubmit={handleUpdateCluster}
       />
     </Stack>
   );

@@ -41,3 +41,20 @@ export async function deleteCluster(id: number): Promise<void> {
     method: "DELETE",
   });
 }
+
+export interface UpdateClusterRequest {
+  name: string;
+  description: string;
+  apiEndpoint: string;
+  prometheusEndpoint: string;
+}
+
+export async function updateCluster(
+  id: number,
+  data: UpdateClusterRequest
+): Promise<void> {
+  await apiFetch<string>(`/api/cluster/cluster/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
