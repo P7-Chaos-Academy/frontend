@@ -12,7 +12,10 @@ interface JobPostResponse {
   estimatedTimeRemainingSeconds: number;
 }
 
-export async function postJob(data: PromptFormData, clusterId: number): Promise<JobPostResponse> {
+export async function postJob(
+  data: PromptFormData,
+  clusterId: number,
+): Promise<JobPostResponse> {
   return apiFetch<JobPostResponse>("/api/Job", {
     method: "POST",
     body: JSON.stringify({
@@ -35,10 +38,15 @@ interface JobQueueResponse {
   jobs: JobStatus[];
 }
 
-export async function fetchJobQueue(clusterId: number): Promise<JobQueueResponse> {
-  return apiFetch<JobQueueResponse>(`/api/Job/all-jobs?clusterId=${clusterId}`, {
-    method: "GET",
-  });
+export async function fetchJobQueue(
+  clusterId: number,
+): Promise<JobQueueResponse> {
+  return apiFetch<JobQueueResponse>(
+    `/api/Job/all-jobs?clusterId=${clusterId}`,
+    {
+      method: "GET",
+    },
+  );
 }
 
 export interface JobDetailsResponse {
@@ -62,7 +70,10 @@ export async function fetchJobDetails(
   jobName: string,
   clusterId: number,
 ): Promise<JobDetailsResponse> {
-  return apiFetch<JobDetailsResponse>(`/api/Job/jobId/${jobName}?clusterId=${clusterId}`, {
-    method: "GET",
-  });
+  return apiFetch<JobDetailsResponse>(
+    `/api/Job/jobId/${jobName}?clusterId=${clusterId}`,
+    {
+      method: "GET",
+    },
+  );
 }
