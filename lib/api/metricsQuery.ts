@@ -9,17 +9,19 @@ export async function getMetricsQuery(
   instance: string | undefined | null,
   clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
-  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
+  if (!clusterId || clusterId <= 0) {
+    throw new Error("clusterId is required and must be greater than 0");
+  }
+  return apiFetch<PrometheusMatrixResponse>(`/api/Metrics/query?clusterId=${clusterId}`, {
     method: "POST",
     body: JSON.stringify({
       metricIds: metricIds,
       time: endDate.toISOString(),
-      startTime: startDate.toISOString(),
-      endTime: endDate.toISOString(),
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
       step: step,
       isRange: true,
       instance: instance,
-      clusterId: clusterId,
     }),
   });
 }
@@ -81,14 +83,16 @@ export async function getMetricsQueryNotRange(
   instance: string | undefined | null,
   clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
-  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
+  if (!clusterId || clusterId <= 0) {
+    throw new Error("clusterId is required and must be greater than 0");
+  }
+  return apiFetch<PrometheusMatrixResponse>(`/api/Metrics/query?clusterId=${clusterId}`, {
     method: "POST",
     body: JSON.stringify({
       metricIds: metricIds,
       time: time.toISOString(),
       isRange: false,
       instance: instance,
-      clusterId: clusterId,
     }),
   });
 }

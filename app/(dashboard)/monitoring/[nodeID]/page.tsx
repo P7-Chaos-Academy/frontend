@@ -38,7 +38,7 @@ interface NodeMetrics {
 
 export default function NodeDetailPage() {
   const params = useParams();
-  const { selectedClusterId } = useCluster();
+  const { selectedClusterId, loading: clusterLoading } = useCluster();
   const nodeId = decodeURIComponent((params?.nodeID as string) || "");
   const [data, setData] = useState<NodeMetrics | null>(null);
   const [update, setUpdate] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export default function NodeDetailPage() {
 
   useEffect(() => {
     async function fetchMetrics() {
-      if (!nodeId || !selectedClusterId) return;
+      if (!nodeId || clusterLoading || selectedClusterId === null || selectedClusterId <= 0) return;
 
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - startDateMinutes * 60 * 1000);
@@ -110,12 +110,22 @@ export default function NodeDetailPage() {
     }
 
     fetchMetrics();
-  }, [nodeId, update, stepMinutes, startDateMinutes, selectedMetricIds, selectedClusterId]);
+  }, [nodeId, update, stepMinutes, startDateMinutes, selectedMetricIds, selectedClusterId, clusterLoading]);
 
-  if (!data) {
+  if (clusterLoading || !data) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", p: 4 }}>
         <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!selectedClusterId) {
+    return (
+      <Box sx={{ p: 4 }}>
+        <Typography color="text.secondary">
+          Please select a cluster to view node metrics.
+        </Typography>
       </Box>
     );
   }
