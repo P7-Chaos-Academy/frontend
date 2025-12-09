@@ -51,6 +51,12 @@ export async function apiFetch<T>(
     return undefined as T;
   }
 
+  const contentType = response.headers.get("content-type");
   const text = await response.text();
-  return JSON.parse(text) as T;
+
+  if (contentType?.includes("application/json")) {
+    return JSON.parse(text) as T;
+  }
+
+  return text as T;
 }

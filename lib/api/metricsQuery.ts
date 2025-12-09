@@ -7,19 +7,26 @@ export async function getMetricsQuery(
   endDate: Date,
   step: string,
   instance: string | undefined | null,
+  clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
-  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
-    method: "POST",
-    body: JSON.stringify({
-      metricIds: metricIds,
-      time: endDate.toISOString(),
-      startTime: startDate.toISOString(),
-      endTime: endDate.toISOString(),
-      step: step,
-      isRange: true,
-      instance: instance,
-    }),
-  });
+  if (!clusterId || clusterId <= 0) {
+    throw new Error("clusterId is required and must be greater than 0");
+  }
+  return apiFetch<PrometheusMatrixResponse>(
+    `/api/Metrics/query?clusterId=${clusterId}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        metricIds: metricIds,
+        time: endDate.toISOString(),
+        start: startDate.toISOString(),
+        end: endDate.toISOString(),
+        step: step,
+        isRange: true,
+        instance: instance,
+      }),
+    },
+  );
 }
 
 export type InstanceBundle = {
@@ -72,18 +79,26 @@ export function bundleByInstance(
     };
   });
 }
+
 export async function getMetricsQueryNotRange(
   metricIds: number[],
   time: Date,
   instance: string | undefined | null,
+  clusterId: number,
 ): Promise<PrometheusMatrixResponse> {
-  return apiFetch<PrometheusMatrixResponse>("/api/Metrics/query", {
-    method: "POST",
-    body: JSON.stringify({
-      metricIds: metricIds,
-      time: time.toISOString(),
-      isRange: false,
-      instance: instance,
-    }),
-  });
+  if (!clusterId || clusterId <= 0) {
+    throw new Error("clusterId is required and must be greater than 0");
+  }
+  return apiFetch<PrometheusMatrixResponse>(
+    `/api/Metrics/query?clusterId=${clusterId}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        metricIds: metricIds,
+        time: time.toISOString(),
+        isRange: false,
+        instance: instance,
+      }),
+    },
+  );
 }

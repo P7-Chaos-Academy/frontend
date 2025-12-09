@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useCluster } from "@/contexts/ClusterContext";
 import { fetchJobDetails, JobDetailsResponse } from "@/lib/api/jobs";
 import {
   Paper,
@@ -41,6 +42,7 @@ function formatDuration(seconds: number | null | undefined): string {
 
 export default function JobDetailsPage() {
   const { user, loading: authLoading } = useAuth();
+  const { selectedClusterId, loading: clusterLoading } = useCluster();
   const router = useRouter();
   const params = useParams();
   const jobName = params.id as string;
@@ -50,10 +52,10 @@ export default function JobDetailsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!jobName) return;
+    if (!jobName || !selectedClusterId || clusterLoading) return;
 
     setLoading(true);
-    fetchJobDetails(jobName)
+    fetchJobDetails(jobName, selectedClusterId)
       .then((data) => {
         setJob(data);
         setError(null);

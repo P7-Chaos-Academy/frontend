@@ -2,12 +2,15 @@
 
 import PromptInputForm, { PromptFormData } from "@/components/deployments/PromptInputForm";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCluster } from "@/contexts/ClusterContext";
 import { postJob } from "@/lib/api/jobs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { CircularProgress, Box, Typography } from "@mui/material";
 
 export default function JobsPage() {
   const { user, loading } = useAuth();
+  const { selectedClusterId, loading: clusterLoading, error: clusterError } = useCluster();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,11 +23,29 @@ export default function JobsPage() {
     return null;
   }
 
-    const handlePromptSubmit = (data: PromptFormData) => {
-      postJob(data)
-        .catch((error) => {
-          console.error('Error posting job:', error);
-        });
+  if (clusterLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (clusterError || !selectedClusterId) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <Typography color="error">
+          {clusterError || "No cluster selected"}
+        </Typography>
+      </Box>
+    );
+  }
+
+  const handlePromptSubmit = (data: PromptFormData) => {
+    postJob(data, selectedClusterId)
+      .catch((error) => {
+        console.error('Error posting job:', error);
+      });
   };
 
   return (
