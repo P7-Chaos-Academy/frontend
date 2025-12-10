@@ -6,6 +6,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import RedirectButton from "@/components/deployments/RedirectButton";
 
 export default function DeploymentsPage() {
   const { user, loading } = useAuth();
@@ -39,6 +40,7 @@ export default function DeploymentsPage() {
             Deployment dashboard
           </Typography>
         </Stack>
+        <RedirectButton />
       </Paper>
     </Stack>
   );
