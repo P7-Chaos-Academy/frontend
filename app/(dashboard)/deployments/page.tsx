@@ -23,6 +23,7 @@ export default function DeploymentsPage() {
   }
 
   return (
+    <>
     <Stack spacing={4}>
       <Paper
         elevation={0}
@@ -41,7 +42,8 @@ export default function DeploymentsPage() {
           </Typography>
         </Stack>
       </Paper>
-      <RedirectButton />
     </Stack>
+    <RedirectButton />
+    </>
   );
 }

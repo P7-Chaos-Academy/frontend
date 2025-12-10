@@ -11,7 +11,7 @@ return(<Stack direction="row" spacing={2}>
         <Button
           variant="contained"
           size="large"
-          onClick={() => router.push("/jobs")}
+          onClick={() => router.push("/deployments/jobs")}
           sx={{
             textTransform: "none",
             borderRadius: 2,
@@ -23,7 +23,7 @@ return(<Stack direction="row" spacing={2}>
         <Button
           variant="contained"
           size="large"
-          onClick={() => router.push("/queue")}
+          onClick={() => router.push("/deployments/queue")}
           sx={{
             textTransform: "none",
             borderRadius: 2,
