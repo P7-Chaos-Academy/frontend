@@ -40,8 +40,8 @@ export default function DeploymentsPage() {
             Deployment dashboard
           </Typography>
         </Stack>
-        <RedirectButton />
       </Paper>
+      <RedirectButton />
     </Stack>
   );
 }
