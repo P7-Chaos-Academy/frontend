@@ -44,8 +44,7 @@ export default function HeroBanner({ baseUrl }: HeroBannerProps) {
               Welcome to the Strato control plane
             </Typography>
             <Typography variant="body1" sx={{ opacity: 0.85 }}>
-              Observe cluster posture at a glance, drill into workloads, and
-              prepare automation for your edge fleet.
+              Observe all the clusters
             </Typography>
           </Box>
           <Stack
@@ -62,9 +61,6 @@ export default function HeroBanner({ baseUrl }: HeroBannerProps) {
               variant="filled"
               sx={{ fontWeight: 600 }}
             />
-            <Typography variant="caption" sx={{ opacity: 0.7 }}>
-              BaseUrl: {baseUrl}
-            </Typography>
           </Stack>
         </Stack>
       </Stack>

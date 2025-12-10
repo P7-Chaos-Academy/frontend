@@ -31,7 +31,6 @@ export default function DashboardRoutes() {
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <FitbitIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <DataUsageIcon /> },
-    { label: "Logs", href: "/logs", icon: <ChatIcon /> },
   ];
 
   // Detect node page format: /monitoring/{nodeId}
