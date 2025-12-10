@@ -40,6 +40,9 @@ export default function DeploymentsPage() {
           <Typography variant="h4" fontWeight={700}>
             Deployment dashboard
           </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.85 }}>
+            Here you can go to jobs or queues
+          </Typography>
         </Stack>
       </Paper>
     </Stack>

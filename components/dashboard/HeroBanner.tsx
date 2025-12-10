@@ -37,9 +37,6 @@ export default function HeroBanner({ baseUrl }: HeroBannerProps) {
           justifyContent="space-between"
         >
           <Box>
-            <Typography variant="overline" sx={{ letterSpacing: 2 }}>
-              Distributed operations
-            </Typography>
             <Typography variant="h4" fontWeight={700} gutterBottom>
               Welcome to the Strato control plane
             </Typography>
