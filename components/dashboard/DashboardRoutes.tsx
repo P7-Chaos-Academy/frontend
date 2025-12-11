@@ -5,7 +5,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
-import ChatIcon from '@mui/icons-material/Comment';
 import { 
     List, 
     ListItemButton, 
