@@ -2,11 +2,7 @@
 
 import { Box, Chip, Paper, Stack, Typography } from "@mui/material";
 
-interface HeroBannerProps {
-  baseUrl?: string;
-}
-
-export default function HeroBanner({ baseUrl }: HeroBannerProps) {
+export default function HeroBanner() {
   return (
     <Paper
       elevation={0}

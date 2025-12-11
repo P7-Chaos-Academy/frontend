@@ -41,11 +41,13 @@ export default function JobsPage() {
     );
   }
 
-  const handlePromptSubmit = (data: PromptFormData) => {
-    postJob(data, selectedClusterId)
-      .catch((error) => {
-        console.error('Error posting job:', error);
-      });
+  const handlePromptSubmit = async (data: PromptFormData) => {
+    try {
+      const response = await postJob(data, selectedClusterId);
+      router.push(`/deployments/queue/${response.jobDetails.job_name}`);
+    } catch (error) {
+      console.error('Error posting job:', error);
+    }
   };
 
   return (
