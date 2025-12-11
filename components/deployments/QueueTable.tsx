@@ -10,7 +10,7 @@ export interface QueueTableProps {
 
 function getStatusColor(status: JobStatus["status"]): "success" | "error" | "info" | "warning" {
   switch (status) {
-    case "finished":
+    case "succeeded":
       return "success";
     case "failed":
       return "error";
