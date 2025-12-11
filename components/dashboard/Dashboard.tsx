@@ -26,8 +26,6 @@ export default function Dashboard() {
   const [editingCluster, setEditingCluster] = useState<Cluster | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
   const handleDeleteCluster = async (e: React.MouseEvent, clusterId: number) => {
     e.stopPropagation();
     if (deletingId) return;
