@@ -1,8 +1,70 @@
 "use client";
 
-import { Box, Chip, Paper, Stack, Typography } from "@mui/material";
+import { Box, Chip, CircularProgress, Paper, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getClustersHealth, getStratoHealth } from "@/lib/api/health";
+
+interface HealthStatus {
+  stratoApi: "loading" | "healthy" | "unhealthy";
+  clusters: Record<string, string> | null;
+  clustersLoading: boolean;
+}
 
 export default function HeroBanner() {
+  const [health, setHealth] = useState<HealthStatus>({
+    stratoApi: "loading",
+    clusters: null,
+    clustersLoading: true,
+  });
+
+  useEffect(() => {
+    async function fetchHealth() {
+      // Fetch strato-api health
+      try {
+        const stratoHealth = await getStratoHealth();
+        setHealth((prev) => ({
+          ...prev,
+          stratoApi: stratoHealth === "Ok" ? "healthy" : "unhealthy",
+        }));
+      } catch {
+        setHealth((prev) => ({ ...prev, stratoApi: "unhealthy" }));
+      }
+
+      // Fetch clusters health
+      try {
+        const clustersHealth = await getClustersHealth();
+        setHealth((prev) => ({
+          ...prev,
+          clusters: clustersHealth,
+          clustersLoading: false,
+        }));
+      } catch {
+        setHealth((prev) => ({ ...prev, clusters: null, clustersLoading: false }));
+      }
+    }
+
+    fetchHealth();
+  }, []);
+
+  const getChipProps = (status: "loading" | "healthy" | "unhealthy") => {
+    switch (status) {
+      case "loading":
+        return { label: "Checking...", color: "default" as const };
+      case "healthy":
+        return { label: "Operational", color: "success" as const };
+      case "unhealthy":
+        return { label: "Unavailable", color: "error" as const };
+    }
+  };
+
+  const getClusterChipProps = (status: string) => {
+    const lower = status.toLowerCase();
+    console.log("Lower: " + lower)
+    if (lower === "healthy" || lower === "ok") {
+      return { label: status, color: "success" as const };
+    }
+    return { label: status, color: "error" as const };
+  };
   return (
     <Paper
       elevation={0}
@@ -42,18 +104,52 @@ export default function HeroBanner() {
           </Box>
           <Stack
             direction="column"
-            spacing={1}
+            spacing={2}
             alignItems={{ xs: "flex-start", md: "flex-end" }}
           >
-            <Typography variant="body2" sx={{ opacity: 0.8 }}>
-              Health endpoint status
-            </Typography>
-            <Chip
-              label="Operational"
-              color="success"
-              variant="filled"
-              sx={{ fontWeight: 600 }}
-            />
+            <Box>
+              <Typography variant="body2" sx={{ opacity: 0.8, mb: 0.5 }}>
+                Strato API
+              </Typography>
+              <Chip
+                {...getChipProps(health.stratoApi)}
+                variant="filled"
+                sx={{ fontWeight: 600 }}
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ opacity: 0.8, mb: 0.5 }}>
+                Clusters
+              </Typography>
+              {health.clustersLoading ? (
+                <Chip
+                  label="Checking..."
+                  icon={<CircularProgress size={14} sx={{ color: "inherit" }} />}
+                  variant="filled"
+                  sx={{ fontWeight: 600 }}
+                />
+              ) : health.clusters ? (
+                <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                  {Object.entries(health.clusters).map(([name, status]) => (
+                    <Chip
+                      key={name}
+                      label={name}
+                      color={getClusterChipProps(status).color}
+                      size="small"
+                      variant="filled"
+                      sx={{ fontWeight: 600 }}
+                    />
+                  ))}
+                </Stack>
+              ) : (
+                <Chip
+                  label="No clusters"
+                  color="warning"
+                  variant="filled"
+                  sx={{ fontWeight: 600 }}
+                />
+              )}
+            </Box>
           </Stack>
         </Stack>
       </Stack>

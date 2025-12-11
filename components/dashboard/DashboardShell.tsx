@@ -17,6 +17,7 @@ import DashboardRoutes from "./DashboardRoutes";
 import DashboardLogo from "./DashboardLogo";
 import DashboardUser from "./DashboardUser";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCluster } from "@/contexts/ClusterContext";
 
 const drawerWidth = 280;
 
@@ -27,7 +28,9 @@ type Props = {
 export default function DashboardShell({ children }: Props) {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const { loading } = useAuth();
+  const { selectedCluster } = useCluster();
  
+  const env = selectedCluster ? selectedCluster.name : "unknown";
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -170,7 +173,7 @@ export default function DashboardShell({ children }: Props) {
               Current environment
             </Typography>
             <Chip
-              label="Development"
+              label={env}
               color="primary"
               variant="outlined"
               size="small"
