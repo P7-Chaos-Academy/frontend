@@ -5,7 +5,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
-import ChatIcon from '@mui/icons-material/Comment';
 import { 
     List, 
     ListItemButton, 
@@ -31,7 +30,6 @@ export default function DashboardRoutes() {
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
     { label: "Deployments", href: "/deployments", icon: <FitbitIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <DataUsageIcon /> },
-    { label: "Logs", href: "/logs", icon: <ChatIcon /> },
   ];
 
   // Detect node page format: /monitoring/{nodeId}

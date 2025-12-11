@@ -10,7 +10,7 @@ interface HealthStatus {
   clustersLoading: boolean;
 }
 
-export default function HeroBanner({ baseUrl }: HeroBannerProps) {
+export default function HeroBanner() {
   const [health, setHealth] = useState<HealthStatus>({
     stratoApi: "loading",
     clusters: null,
@@ -65,7 +65,6 @@ export default function HeroBanner({ baseUrl }: HeroBannerProps) {
     }
     return { label: status, color: "error" as const };
   };
-
   return (
     <Paper
       elevation={0}
@@ -96,15 +95,11 @@ export default function HeroBanner({ baseUrl }: HeroBannerProps) {
           justifyContent="space-between"
         >
           <Box>
-            <Typography variant="overline" sx={{ letterSpacing: 2 }}>
-              Distributed operations
-            </Typography>
             <Typography variant="h4" fontWeight={700} gutterBottom>
               Welcome to the Strato control plane
             </Typography>
             <Typography variant="body1" sx={{ opacity: 0.85 }}>
-              Observe cluster posture at a glance, drill into workloads, and
-              prepare automation for your edge fleet.
+              Observe all the clusters
             </Typography>
           </Box>
           <Stack

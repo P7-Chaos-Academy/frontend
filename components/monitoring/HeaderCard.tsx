@@ -18,14 +18,11 @@ export default function HeaderCard() {
         }}
       >
         <Stack spacing={1.5}>
-          <Typography variant="overline" sx={{ letterSpacing: 2 }}>
+          <Typography variant="h4" fontWeight={700}>
             Monitoring dashboard
           </Typography>
-          <Typography variant="h4" fontWeight={700}>
-            Cluster node visibility in real-time
-          </Typography>
           <Typography variant="body1" sx={{ opacity: 0.85 }}>
-            Stay informed with live metrics on each node’s health, workload, and uptime.
+            Here you can see live metrics on each node’s health, workload, temperature, and power usage.
           </Typography>
         </Stack>
       </Paper>

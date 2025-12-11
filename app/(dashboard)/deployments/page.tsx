@@ -6,6 +6,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import RedirectButton from "@/components/deployments/RedirectButton";
 
 export default function DeploymentsPage() {
   const { user, loading } = useAuth();
@@ -22,6 +23,7 @@ export default function DeploymentsPage() {
   }
 
   return (
+    <>
     <Stack spacing={4}>
       <Paper
         elevation={0}
@@ -35,63 +37,16 @@ export default function DeploymentsPage() {
         }}
       >
         <Stack spacing={1.5}>
-          <Typography variant="overline" sx={{ letterSpacing: 2 }}>
-            Fleet management
-          </Typography>
           <Typography variant="h4" fontWeight={700}>
-            Cluster visibility is on the horizon
+            Deployment dashboard
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.85 }}>
-            This workspace will chart every distributed cluster under Strato
-            control—topology, workloads, health, and actionable runbooks.
+            Here you can go to jobs or queues
           </Typography>
         </Stack>
       </Paper>
-
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              borderRadius: 3,
-              border: "1px solid rgba(15, 23, 42, 0.08)",
-              backgroundColor: "#ffffff",
-              boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
-            }}
-          >
-            <Typography variant="h6" fontWeight={600} gutterBottom>
-              Planned telemetry
-            </Typography>
-            <Box component="ul" sx={{ pl: 3, color: "text.secondary", mb: 0 }}>
-              <li>Cluster uptime, SLA tracking, and noisy-node alerts.</li>
-              <li>Capacity dashboards with autoscale recommendations.</li>
-              <li>Deployment history and drift detection.</li>
-            </Box>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              borderRadius: 3,
-              border: "1px solid rgba(15, 23, 42, 0.08)",
-              backgroundColor: "#ffffff",
-              boxShadow: "0 20px 45px rgba(15, 23, 42, 0.06)",
-            }}
-          >
-            <Typography variant="h6" fontWeight={600} gutterBottom>
-              Automation roadmap
-            </Typography>
-            <Box component="ul" sx={{ pl: 3, color: "text.secondary", mb: 0 }}>
-              <li>Rolling upgrades with workload safety checks.</li>
-              <li>Workload migration when hardware degradation is detected.</li>
-              <li>Self-healing primitives for quorum recovery.</li>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
     </Stack>
+    <RedirectButton />
+    </>
   );
 }

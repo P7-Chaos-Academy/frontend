@@ -51,7 +51,7 @@ export interface UpdateClusterRequest {
 
 export async function updateCluster(
   id: number,
-  data: UpdateClusterRequest
+  data: UpdateClusterRequest,
 ): Promise<void> {
   await apiFetch<string>(`/api/cluster/cluster/${id}`, {
     method: "PUT",
