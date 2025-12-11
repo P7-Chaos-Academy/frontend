@@ -107,7 +107,7 @@ export default function Dashboard() {
 
   return (
     <Stack spacing={4} sx={{ width: "100%" }}>
-      <HeroBanner baseUrl={baseUrl} />
+      <HeroBanner />
 
       <Box>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
