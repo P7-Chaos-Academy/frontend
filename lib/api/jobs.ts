@@ -29,7 +29,7 @@ export async function postJob(
 
 export interface JobStatus {
   job_name: string;
-  status: "finished" | "failed" | "running" | "pending";
+  status: "succeeded" | "failed" | "running" | "pending";
   node_name: string | null;
   namespace: string;
 }
