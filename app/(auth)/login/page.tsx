@@ -19,10 +19,9 @@ export default function LoginPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: "30px", // space between logo box and login box
+        gap: "30px",
       }}
     >
-      {/* Logo + Title Box */}
       <Box
         sx={{
           display: "flex",
@@ -58,7 +57,6 @@ export default function LoginPage() {
         </Box>
       </Box>
 
-      {/* Center Login Box */}
       <Box
         sx={{
           backgroundColor: "white",

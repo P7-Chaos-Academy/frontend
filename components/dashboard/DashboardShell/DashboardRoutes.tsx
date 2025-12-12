@@ -3,7 +3,6 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
-import FitbitIcon from '@mui/icons-material/Fitbit';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
 import { 
     List, 
@@ -28,7 +27,8 @@ export default function DashboardRoutes() {
 
   const navItems: NavItemType[] = [
     { label: "Overview", href: "/", icon: <DashboardIcon /> },
-    { label: "Deployments", href: "/deployments", icon: <FitbitIcon /> },
+    { label: "Jobs", href: "/jobs", icon: <ChecklistIcon /> },
+    { label: "Queue", href: "/queue", icon: <FormatListNumberedIcon /> },
     { label: "Monitoring", href: "/monitoring", icon: <DataUsageIcon /> },
   ];
 
@@ -39,10 +39,6 @@ export default function DashboardRoutes() {
     cleaned.startsWith("/monitoring/") && !isMonitoringBase;
   const nodeId = isMonitoringNodePage ? cleaned.split("/")[2] || null : null;
 
-  // Deployments → Jobs logic
-  const isJobsPage = pathname.startsWith("/deployments/jobs");
-
-
   // The lint does not like unused variables, so we add this useEffect to silence the warning.
   useEffect(() => {}, [mobileOpen]) 
 
@@ -51,18 +47,15 @@ export default function DashboardRoutes() {
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         const isMonitoringItem = item.href === "/monitoring";
-        const isDeploymentsItem = item.href === "/deployments";
 
         return (
           <div key={item.href}>
-            {/* Top-level item */}
             <ListItemButton
               component={Link}
               href={item.href}
               selected={
                 isActive ||
-                (isMonitoringItem && isMonitoringNodePage) ||
-                (isDeploymentsItem && isJobsPage)
+                (isMonitoringItem && isMonitoringNodePage)
               }
               onClick={() => setMobileOpen(false)}
               sx={{
@@ -89,72 +82,6 @@ export default function DashboardRoutes() {
               />
             </ListItemButton>
 
-            {/* ============================
-                DEPLOYMENTS → JOBS COLLAPSE
-            ============================= */}
-            {isDeploymentsItem && pathname.startsWith("/deployments") && (
-              <Collapse in={true}>
-                <List disablePadding>
-
-                  {/* Jobs */}
-                  <ListItemButton
-                    component={Link}
-                    href="/deployments/jobs"
-                    selected={pathname.startsWith("/deployments/jobs")}
-                    sx={{
-                      pl: 6,
-                      borderRadius: 2,
-                      mb: 1,
-                      backgroundColor: pathname.startsWith("/deployments/jobs")
-                        ? "rgba(15, 23, 42, 0.12)"
-                        : "transparent",
-                      "&.Mui-selected": {
-                        backgroundColor: "rgba(15, 23, 42, 0.18)",
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "inherit", minWidth: 32 }}>
-                      <ChecklistIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Jobs"
-                      primaryTypographyProps={{ fontSize: "0.9rem" }}
-                    />
-                  </ListItemButton>
-
-                  {/* Queue */}
-                  <ListItemButton
-                    component={Link}
-                    href="/deployments/queue"
-                    selected={pathname.startsWith("/deployments/queue")}
-                    sx={{
-                      pl: 6,
-                      borderRadius: 2,
-                      mb: 1,
-                      backgroundColor: pathname.startsWith("/deployments/queue")
-                        ? "rgba(15, 23, 42, 0.12)"
-                        : "transparent",
-                      "&.Mui-selected": {
-                        backgroundColor: "rgba(15, 23, 42, 0.18)",
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "inherit", minWidth: 32 }}>
-                      <FormatListNumberedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Queue"
-                      primaryTypographyProps={{ fontSize: "0.9rem" }}
-                    />
-                  </ListItemButton>
-
-                </List>
-              </Collapse>
-            )}
-
-            {/* ============================
-                MONITORING → NODE COLLAPSE
-            ============================= */}
             {isMonitoringItem && isMonitoringNodePage && nodeId && (
               <Collapse in={true}>
                 <List disablePadding>
