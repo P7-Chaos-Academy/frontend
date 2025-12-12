@@ -8,13 +8,19 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
+  Button,
   Chip,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 interface ClusterCardProps {
   cluster: Cluster;
@@ -33,6 +39,17 @@ export default function ClusterCard({
   onEdit,
   onDelete,
 }: ClusterCardProps) {
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = (e: React.MouseEvent) => {
+    setDeleteConfirmOpen(false);
+    onDelete(e);
+  };
   return (
     <Paper
       elevation={0}
@@ -90,7 +107,7 @@ export default function ClusterCard({
             </IconButton>
             <IconButton
               size="small"
-              onClick={onDelete}
+              onClick={handleDeleteClick}
               disabled={isDeleting}
               sx={{
                 color: "text.secondary",
@@ -125,6 +142,21 @@ export default function ClusterCard({
           </Typography>
         </Box>
       </Stack>
+
+      <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)}>
+        <DialogTitle>Delete Cluster</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to delete the cluster "<strong>{cluster.name}</strong>"? This action cannot be undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteConfirmOpen(false)}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="error" variant="contained">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 }
