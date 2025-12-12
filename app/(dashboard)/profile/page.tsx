@@ -1,16 +1,22 @@
 "use client";
 
-import { Avatar, Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Button, Container, Paper, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setLogoutConfirmOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setLogoutConfirmOpen(false);
     logout();
     router.push("/login");
   };
@@ -54,7 +60,7 @@ export default function ProfilePage() {
         </Box>
 
         <Button
-          onClick={handleLogout}
+          onClick={handleLogoutClick}
           startIcon={<LogoutIcon />}
           variant="contained"
           size="large"
@@ -64,6 +70,21 @@ export default function ProfilePage() {
         >
           Sign out
         </Button>
+
+        <Dialog open={logoutConfirmOpen} onClose={() => setLogoutConfirmOpen(false)}>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogContent>
+            <Typography>
+              Are you sure you want to sign out?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setLogoutConfirmOpen(false)}>Cancel</Button>
+            <Button onClick={handleConfirmLogout} color="error" variant="contained">
+              Sign out
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </Container>
   );
