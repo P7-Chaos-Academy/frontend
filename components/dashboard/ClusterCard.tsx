@@ -147,7 +147,7 @@ export default function ClusterCard({
         <DialogTitle>Delete Cluster</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete the cluster "<strong>{cluster.name}</strong>"? This action cannot be undone.
+            Are you sure you want to delete the cluster &quot;<strong>{cluster.name}</strong>&quot;? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
