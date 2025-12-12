@@ -14,6 +14,10 @@ export default function DashboardUser() {
       router.push("/login");
     };
 
+    const handleProfileClick = () => {
+      router.push("/profile");
+    };
+
     const emailDisplay: string | undefined = useMemo(() => {
       return user?.email?.charAt(0).toUpperCase();
     }, [user?.email]);
@@ -22,6 +26,7 @@ export default function DashboardUser() {
       <Stack spacing={2}>
         <Paper
           elevation={0}
+          onClick={handleProfileClick}
           sx={{
             p: 2,
             borderRadius: 3,
@@ -30,6 +35,11 @@ export default function DashboardUser() {
             display: "flex",
             alignItems: "center",
             gap: 2,
+            cursor: "pointer",
+            transition: "background-color 0.2s",
+            "&:hover": {
+              backgroundColor: "rgba(15, 23, 42, 0.4)",
+            },
           }}
         >
           <Avatar sx={{ bgcolor: "rgba(15, 23, 42, 0.6)" }}>
