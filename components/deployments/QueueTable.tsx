@@ -25,7 +25,7 @@ export default function QueueTable({ jobs }: QueueTableProps) {
   const router = useRouter();
 
   const handleRowClick = (jobName: string) => {
-    router.push(`/deployments/queue/${jobName}`);
+    router.push(`/queue/${jobName}`);
   };
 
   return (
