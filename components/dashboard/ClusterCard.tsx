@@ -144,7 +144,7 @@ export default function ClusterCard({
       </Stack>
 
       <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)}>
-        <DialogTitle>Delete Cluster</DialogTitle>
+        <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <Typography>
             Are you sure you want to delete the cluster &quot;<strong>{cluster.name}</strong>&quot;? This action cannot be undone.
