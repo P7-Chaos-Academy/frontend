@@ -91,7 +91,7 @@ describe('QueuePage - Job Rendering', () => {
     (jobsApi.fetchJobQueue as jest.Mock<any>).mockResolvedValue(mockJobs);
   });
 
-  it('should render all 16 jobs from the API response', async () => {
+  it('should render all 7 jobs from the API response', async () => {
     render(<QueuePage />);
 
     await waitFor(() => {
