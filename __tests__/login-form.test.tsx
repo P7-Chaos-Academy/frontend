@@ -1,4 +1,10 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import LoginForm from "@/components/LoginForm";
 import * as authContext from "@/contexts/AuthContext";
@@ -27,7 +33,9 @@ describe("LoginForm - Error Handling", () => {
       target: { value: "wrongpass" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    });
 
     await waitFor(() => {
       expect(
@@ -37,6 +45,16 @@ describe("LoginForm - Error Handling", () => {
   });
 
   it("disables button while loading and re-enables after failure", async () => {
+    // Override mock with a controllable rejecting promise so we can observe loading state
+    let rejectLogin: (reason?: unknown) => void = () => {};
+    const loginPromise = new Promise<never>((_, reject) => {
+      rejectLogin = reject;
+    });
+    const mockLogin = jest.fn(() => loginPromise);
+    (authContext.useAuth as unknown as jest.Mock).mockReturnValue({
+      login: mockLogin,
+    });
+
     render(<LoginForm />);
 
     const button = screen.getByRole("button", { name: /sign in/i });
@@ -48,16 +66,24 @@ describe("LoginForm - Error Handling", () => {
       target: { value: "wrongpass" },
     });
 
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
-    // During submission, label changes to Signing in...
-    expect(screen.getByRole("button", { name: /signing in/i })).toBeDisabled();
+    await waitFor(() => {
+      expect(button).toBeDisabled();
+      expect(button).toHaveTextContent(/signing in/i);
+    });
+
+    // Trigger rejection to finish the flow
+    rejectLogin(new Error("Invalid credentials"));
 
     await waitFor(() => {
       expect(
         screen.getByText("Login failed. Please check your credentials.")
       ).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: /sign in/i })).not.toBeDisabled();
+      expect(button).not.toBeDisabled();
+      expect(button).toHaveTextContent(/sign in/i);
     });
   });
 });
@@ -79,7 +105,18 @@ describe("LoginForm - Success Handling", () => {
   it("authorizes user and redirects on successful login", async () => {
     const setTimeoutSpy = jest.spyOn(global, "setTimeout");
 
+    let resolveLogin: () => void = () => {};
+    const loginPromise = new Promise<void>((resolve) => {
+      resolveLogin = resolve;
+    });
+    const mockLogin = jest.fn(() => loginPromise);
+    (authContext.useAuth as unknown as jest.Mock).mockReturnValue({
+      login: mockLogin,
+    });
+
     render(<LoginForm />);
+
+    const button = screen.getByRole("button", { name: /sign in/i });
 
     fireEvent.change(screen.getByPlaceholderText("Enter your username"), {
       target: { value: "validuser" },
@@ -88,14 +125,19 @@ describe("LoginForm - Success Handling", () => {
       target: { value: "validpass" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
-    // Button should be in loading state initially
-    expect(screen.getByRole("button", { name: /signing in/i })).toBeDisabled();
-
-    // Wait for login to resolve
     await waitFor(() => {
-      // No error should be shown
+      expect(button).toBeDisabled();
+      expect(button).toHaveTextContent(/signing in/i);
+    });
+
+    // Resolve login to continue flow
+    resolveLogin();
+
+    await waitFor(() => {
       expect(
         screen.queryByText("Login failed. Please check your credentials.")
       ).not.toBeInTheDocument();
@@ -105,6 +147,8 @@ describe("LoginForm - Success Handling", () => {
     expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 100);
 
     // Advance the setTimeout used for redirect
-    jest.advanceTimersByTime(150);
+    act(() => {
+      jest.advanceTimersByTime(150);
+    });
   });
 });

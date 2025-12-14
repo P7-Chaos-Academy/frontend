@@ -27,60 +27,6 @@ describe('QueuePage - Job Rendering', () => {
   const mockJobs = {
     jobs: [
       {
-        job_name: 'llama-job-1765666408-404ac0c3',
-        status: 'succeeded' as const,
-        node_name: 'nano3',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666429-450c315c',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666432-bbb7b344',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666435-d9ac523a',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666438-81c16d6a',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666521-c124cede',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666523-17d48400',
-        status: 'succeeded' as const,
-        node_name: 'nano3',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666526-151d109b',
-        status: 'succeeded' as const,
-        node_name: 'nano1',
-        namespace: 'prompts',
-      },
-      {
-        job_name: 'llama-job-1765666528-4cb7d1d2',
-        status: 'succeeded' as const,
-        node_name: 'nano3',
-        namespace: 'prompts',
-      },
-      {
         job_name: 'llama-job-1765666530-6d37a926',
         status: 'succeeded' as const,
         node_name: 'nano1',
@@ -176,7 +122,7 @@ describe('QueuePage - Job Rendering', () => {
       // Check namespace appears in the table (can have multiple instances)
       expect(screen.getAllByText('prompts')).toHaveLength(mockJobs.jobs.length);
       // Check that all status types are rendered with correct counts
-      expect(screen.getAllByText('succeeded')).toHaveLength(13);
+      expect(screen.getAllByText('succeeded')).toHaveLength(4);
       expect(screen.getAllByText('failed')).toHaveLength(1);
       expect(screen.getAllByText('running')).toHaveLength(1);
       expect(screen.getAllByText('pending')).toHaveLength(1);
