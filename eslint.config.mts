@@ -6,6 +6,9 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
+    ignores: ["babel.config.js", "babel.config.mjs", "eslint.config.mts", "jest.config.js", "jest.setup.js", "__tests__/**"],
+  },
+  {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: { js, react: pluginReact },
     extends: ["js/recommended"],
