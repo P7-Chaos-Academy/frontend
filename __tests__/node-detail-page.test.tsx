@@ -52,6 +52,26 @@ const mockMetricTypes: metricTypeApi.MetricType[] = [
 ];
 
 describe('NodeDetailPage', () => {
+  const originalError = console.error;
+
+  beforeAll(() => {
+    // Suppress React act() warnings during tests
+    console.error = (...args: any[]) => {
+      const message = args[0]?.toString() || '';
+      if (
+        message.includes('Warning: An update to') &&
+        message.includes('inside a test was not wrapped in act')
+      ) {
+        return;
+      }
+      originalError.call(console, ...args);
+    };
+  });
+
+  afterAll(() => {
+    console.error = originalError;
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
 
