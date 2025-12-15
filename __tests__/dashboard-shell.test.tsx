@@ -351,8 +351,6 @@ describe('DashboardShell', () => {
       const menuButton = screen.getByRole('button', { name: /open navigation/i });
       fireEvent.click(menuButton);
 
-      // The mobile drawer should be open (this is tested via state change)
-      // We can verify by checking if the drawer content is accessible
       expect(menuButton).toBeInTheDocument();
     });
   });
