@@ -19,10 +19,15 @@ describe("apiFetch", () => {
 
   it("adds default headers and parses JSON response", async () => {
     const data = { ok: true };
-    const fetchMock = (((global as any).fetch = jest.fn()) as jest.Mock).mockResolvedValue({
+    const fetchMock = (
+      ((global as any).fetch = jest.fn()) as jest.Mock
+    ).mockResolvedValue({
       ok: true,
       status: 200,
-      headers: { get: (k: string) => (k.toLowerCase() === "content-type" ? "application/json" : null) },
+      headers: {
+        get: (k: string) =>
+          k.toLowerCase() === "content-type" ? "application/json" : null,
+      },
       text: async () => JSON.stringify(data),
     });
 
@@ -76,12 +81,18 @@ describe("apiFetch", () => {
       try {
         jest.isolateModules(async () => {
           const mod = require("../lib/api/client");
-          const apiFetchFresh = mod.apiFetch as (p: string, i?: RequestInit) => Promise<string>;
+          const apiFetchFresh = mod.apiFetch as (
+            p: string,
+            i?: RequestInit,
+          ) => Promise<string>;
           const base = mod.API_BASE_URL as string;
           await apiFetchFresh("/key");
-          const headers = (global.fetch as jest.Mock).mock.calls[0][1].headers as Record<string, string>;
+          const headers = (global.fetch as jest.Mock).mock.calls[0][1]
+            .headers as Record<string, string>;
           expect(headers["X-API-Key"]).toBe("secret");
-          expect((global.fetch as jest.Mock).mock.calls[0][0]).toBe(`${base}/key`);
+          expect((global.fetch as jest.Mock).mock.calls[0][0]).toBe(
+            `${base}/key`,
+          );
           resolve();
         });
       } catch (e) {
@@ -101,7 +112,8 @@ describe("apiFetch", () => {
 
     await apiFetch<string>("/auth");
 
-    const headers = (global.fetch as jest.Mock).mock.calls[0][1].headers as Record<string, string>;
+    const headers = (global.fetch as jest.Mock).mock.calls[0][1]
+      .headers as Record<string, string>;
     expect(headers["Authorization"]).toBe("Bearer token-123");
   });
 

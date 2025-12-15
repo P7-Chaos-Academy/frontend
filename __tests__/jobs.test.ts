@@ -59,7 +59,12 @@ describe("jobs api", () => {
   it("fetchJobQueue requests GET to /api/Job/all-jobs with clusterId", async () => {
     const mockQueue: { jobs: JobStatus[] } = {
       jobs: [
-        { job_name: "job-1", status: "running", node_name: null, namespace: "ns" },
+        {
+          job_name: "job-1",
+          status: "running",
+          node_name: null,
+          namespace: "ns",
+        },
       ],
     };
     (client.apiFetch as jest.Mock).mockResolvedValue(mockQueue);
