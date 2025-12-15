@@ -8,13 +8,31 @@ jest.mock('@/contexts/AuthContext');
 
 describe('AdminGuard Component', () => {
   const mockUseAuth = authContext.useAuth as jest.Mock;
+  const originalConsoleError = console.error;
+
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation((...args) => {
+      const first = args[0] as unknown;
+      const message =
+        typeof first === 'string'
+          ? first
+          : first && typeof (first as { message?: unknown }).message === 'string'
+          ? (first as { message: string }).message
+          : undefined;
+
+      if (message && message.includes('Not implemented: navigation')) {
+        return;
+      }
+      return originalConsoleError(...args);
+    });
+  });
+
+  afterAll(() => {
+    console.error = originalConsoleError;
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   describe('Loading State', () => {
@@ -496,6 +514,7 @@ describe('AdminGuard Component', () => {
 
   describe('Error Handling', () => {
     it('handles missing useAuth context gracefully', () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       const errorMock = jest.fn(() => {
         throw new Error('useAuth must be used within an AuthProvider');
       });
@@ -509,6 +528,8 @@ describe('AdminGuard Component', () => {
           </AdminGuard>
         );
       }).toThrow('useAuth must be used within an AuthProvider');
+
+      consoleErrorSpy.mockRestore();
     });
   });
 

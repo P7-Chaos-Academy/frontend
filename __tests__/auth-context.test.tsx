@@ -54,6 +54,7 @@ describe('AuthContext', () => {
   });
 
   it('throws when useAuth is used outside provider', () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const OutsideConsumer = () => {
       useAuth();
       return null;
@@ -62,6 +63,8 @@ describe('AuthContext', () => {
     expect(() => render(<OutsideConsumer />)).toThrow(
       'useAuth must be used within an AuthProvider'
     );
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('initializes with loading then resolves to unauthenticated when not authenticated', async () => {
