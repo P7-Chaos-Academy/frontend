@@ -116,11 +116,13 @@ describe('QueuePage - Job Rendering', () => {
 
     await waitFor(() => {
       mockJobs.jobs.forEach((job) => {
-        // Check each job name is rendered (all are unique)
+        // Check each job name is rendered
         expect(screen.getByText(job.job_name)).toBeInTheDocument();
       });
-      // Check namespace appears in the table (can have multiple instances)
+
+      // Check namespace appears in the table
       expect(screen.getAllByText('prompts')).toHaveLength(mockJobs.jobs.length);
+
       // Check that all status types are rendered with correct counts
       expect(screen.getAllByText('succeeded')).toHaveLength(4);
       expect(screen.getAllByText('failed')).toHaveLength(1);
@@ -184,7 +186,7 @@ describe('QueuePage - Job Rendering', () => {
       render(<QueuePage />);
 
       await waitFor(() => {
-        // Check succeeded jobs (should be multiple)
+        // Check succeeded jobs exist
         const succeededChips = screen.getAllByText('succeeded');
         expect(succeededChips.length).toBeGreaterThan(0);
         
