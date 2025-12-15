@@ -313,19 +313,13 @@ describe('JobsPage - Prompt Input Form', () => {
     const promptInput = screen.getByLabelText(/Prompt/i);
     const submitButton = screen.getByRole('button', { name: /Submit Prompt/i });
 
-    // Try to set invalid temperature (0.15 is not a multiple of 0.1)
     fireEvent.change(temperatureInput, { target: { value: '0.15' } });
 
-    // Fill in prompt
     fireEvent.change(promptInput, { target: { value: 'Test prompt' } });
 
-    // Attempt to submit
     fireEvent.click(submitButton);
 
-    // Verify postJob was NOT called with the invalid temperature
     await waitFor(() => {
-      // The browser's HTML5 validation should prevent the form from submitting
-      // with an invalid step value, so postJob should not be called
       expect(jobsApi.postJob).not.toHaveBeenCalled();
     });
   });
@@ -341,16 +335,12 @@ describe('JobsPage - Prompt Input Form', () => {
     const promptInput = screen.getByLabelText(/Prompt/i);
     const submitButton = screen.getByRole('button', { name: /Submit Prompt/i });
 
-    // Set valid temperature (0.3 is a multiple of 0.1)
     fireEvent.change(temperatureInput, { target: { value: '0.3' } });
 
-    // Fill in prompt
     fireEvent.change(promptInput, { target: { value: 'Test prompt' } });
 
-    // Submit
     fireEvent.click(submitButton);
 
-    // Verify postJob IS called with the valid temperature
     await waitFor(() => {
       expect(jobsApi.postJob).toHaveBeenCalledWith(
         {
