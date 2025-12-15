@@ -61,7 +61,6 @@ describe('DashboardShell', () => {
         </DashboardShell>
       );
 
-      // MUI icons render as svg elements with specific test IDs or classes
       const hubIcon = screen.getAllByTestId('HubIcon');
       expect(hubIcon.length).toBeGreaterThan(0);
     });
@@ -206,10 +205,8 @@ describe('DashboardShell', () => {
       const logoutButtons = screen.getAllByRole('button', { name: /Sign out/i });
       fireEvent.click(logoutButtons[0]);
 
-      // Wait for dialog to appear
       await screen.findByText('Are you sure?');
 
-      // Find the "Sign out" button inside the dialog (not the main logout button)
       const dialogButtons = screen.getAllByRole('button', { name: /Sign out/i });
       const confirmButton = dialogButtons.find(btn => btn.closest('[role="dialog"]'));
       
