@@ -22,7 +22,7 @@ export default function TableMapper() {
                 date.getUTCMinutes(), date.getUTCSeconds()))
       try {
         const response = await getMetricsQueryNotRange(
-          [1, 2, 3, 4, 7],
+          [1, 2, 3, 14, 15],
           UTCDate,
           undefined,
           selectedClusterId
